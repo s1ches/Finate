@@ -38,5 +38,5 @@ public enum PrivilegeType
     DeleteOwnForm = 11,
     
     [Description("Can delete all forms")]
-    DeleteAllForms = 12
+    DeleteAllForms = 12,
 }

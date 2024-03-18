@@ -1,3 +1,4 @@
+using Finate.Domain.Entities;
 using Finate.Domain.Enums;
 
 namespace Finate.Domain.BaseEntities;
@@ -31,4 +32,6 @@ public class FormBase
     public DateTime CreateDate { get; set; }
 
     public List<Language> Languages { get; set; } = [];
+
+    public List<Tag> Tags { get; set; } = [];
 }

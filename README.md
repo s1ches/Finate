@@ -69,8 +69,8 @@
     3. БД: PostgreSQL
     4. Архитектура приложения: Clean Architecture(Монолит)
   
-## Схема БД: <a href="https://drawsql.app/teams/singleton-1/diagrams/finate">DrawSQL</a>
-![drawSQL-image-export-2024-03-17 (1)](https://github.com/s1ches/Finate/assets/121990701/5ad368ac-fb22-4f94-b0b5-ecc9598c0bc9)
+## Схема БД:
+![FinateDB](https://github.com/s1ches/Finate/assets/121990701/ad9e7632-bc28-4b87-86ed-1bb1faa1f8f6)
 
 
 ## Роли

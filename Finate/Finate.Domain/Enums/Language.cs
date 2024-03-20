@@ -50,5 +50,8 @@ public enum Language
     Portuguese = 15,
     
     [Description("Korean")]
-    Korean = 16
+    Korean = 16,
+    
+    [Description]
+    Any = 17
 }

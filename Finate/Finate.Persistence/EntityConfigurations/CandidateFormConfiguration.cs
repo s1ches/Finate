@@ -8,6 +8,29 @@ public class CandidateFormConfiguration : IEntityTypeConfiguration<CandidateForm
 {
     public void Configure(EntityTypeBuilder<CandidateForm> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(x => x.Id);
+
+        builder.HasIndex(x => x.ProfessionName);
+        builder.HasIndex(x => x.Rating);
+        
+        builder.HasMany(x => x.Experiences)
+            .WithOne(y => y.CandidateForm)
+            .HasForeignKey(z => z.CandidateFormId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Skills)
+            .WithOne(y => y.CandidateForm)
+            .HasForeignKey(z => z.CandidateFormId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Tags)
+            .WithOne(y => y.CandidateForm)
+            .HasForeignKey(z => z.CandidateFormId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Languages)
+            .WithOne(y => y.CandidateForm)
+            .HasForeignKey(z => z.CandidateFormId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

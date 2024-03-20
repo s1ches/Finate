@@ -1,4 +1,5 @@
 using Finate.Domain.Entities;
+using Finate.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,10 @@ public class JobFormDescriptionPartConfiguration : IEntityTypeConfiguration<JobF
 {
     public void Configure(EntityTypeBuilder<JobFormDescriptionPart> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.DescriptionPartType)
+            .HasConversion(e => e.ToString(),
+                s => (DescriptionPartType)Enum.Parse(typeof(DescriptionPartType), s));
     }
 }

@@ -15,11 +15,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(y => y.User)
             .HasForeignKey(z => z.UserId)
             .OnDelete(DeleteBehavior.NoAction);
-
-        builder.Property(x => x.FirstName)
-            .HasMaxLength(50);
-
-        builder.Property(x => x.LastName)
-            .HasMaxLength(50);
     }
 }

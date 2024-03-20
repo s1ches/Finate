@@ -1,9 +1,30 @@
+using Finate.Application;
 using Finate.Persistence;
+using Finate.Web.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultScheme = IdentityConstants.ApplicationScheme;
+    opt.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+    opt.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+});
+
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.Cookie.Name = "Identity.Cookie";
+    config.LoginPath = "/Auth/Login";
+    config.ReturnUrlParameter = "/";
+    config.LogoutPath = "/Auth/Logout";
+});
+
+builder.Services.AddIdentity();
+builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
@@ -21,6 +42,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

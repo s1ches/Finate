@@ -13,6 +13,6 @@ public enum JobType
     [Description("1/4 Time")]
     HalfHalfTime = 3,
     
-    [Description("Negotiable word time")]
+    [Description("Negotiable work time")]
     Negotiable = 4
 }

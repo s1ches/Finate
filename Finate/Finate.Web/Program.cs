@@ -1,5 +1,6 @@
 using Finate.Application;
 using Finate.Persistence;
+using Finate.Services;
 using Finate.Web.Configuration;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddIdentity();
 
 builder.Services.AddAuthentication(opt =>
 {
@@ -23,8 +26,8 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.LogoutPath = "/Auth/Logout";
 });
 
-builder.Services.AddIdentity();
 builder.Services.AddApplication();
+builder.Services.AddServices();
 builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();

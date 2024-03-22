@@ -11,8 +11,7 @@ public static class BaseRoles
         Name = "Admin",
         NormalizedName = "ADMIN"
     };
-
-
+    
     public static Role CandidateRole = new()
     {
         Id = new Guid("33F3F505-60E8-4656-AA3D-5F427192C489"),
@@ -20,7 +19,7 @@ public static class BaseRoles
         NormalizedName = "CANDIDATE"
     };
 
-    public static Role EmployerRole = new Role
+    public static Role EmployerRole = new() 
     {
         Id = new Guid("6D8E2FFC-8500-407B-9FEE-0312CACBFB48"),
         Name = "Employer",

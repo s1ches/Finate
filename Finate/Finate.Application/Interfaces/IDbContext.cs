@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Finate.Application.Interfaces;
 
+/// <summary>
+/// Интерфейс БД контекста
+/// </summary>
 public interface IDbContext
 {
     public DbSet<Skill> Skills { get; set; }

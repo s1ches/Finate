@@ -8,7 +8,7 @@ public class JobFormDescriptionPart
     
     public Guid JobFormId { get; set; }
 
-    public JobForm JobForm { get; set; } = default!;
+    public JobFormExtension JobFormExtension { get; set; } = default!;
     
     public DescriptionPartType DescriptionPartType { get; set; }
 

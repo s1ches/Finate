@@ -1,10 +1,15 @@
-using Finate.Domain.BaseEntities;
 using Finate.Domain.Enums;
 
 namespace Finate.Domain.Entities;
 
-public class JobForm : FormBase
+public class JobFormExtension
 {
+    public Guid Id { get; set; }
+    
+    public Guid FormId { get; set; }
+
+    public Form Form { get; set; } = default!;
+    
     public string? Statement { get; set; }
     
     public JobType JobType { get; set; }

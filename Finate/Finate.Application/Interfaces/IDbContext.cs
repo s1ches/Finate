@@ -8,6 +8,8 @@ namespace Finate.Application.Interfaces;
 /// </summary>
 public interface IDbContext
 {
+    public DbSet<Form> Forms { get; set; }
+    
     public DbSet<Skill> Skills { get; set; }
 
     public DbSet<SocialNetwork> SocialNetworks { get; set; }
@@ -16,11 +18,11 @@ public interface IDbContext
 
     public DbSet<UserLanguage> UserLanguages { get; set; }
 
-    public DbSet<CandidateForm> CandidateForms { get; set; }
+    public DbSet<CandidateFormExtension> CandidateFormExtensions { get; set; }
 
     public DbSet<Experience> Experiences { get; set; }
 
-    public DbSet<JobForm> JobForms { get; set; }
+    public DbSet<JobFormExtension> JobFormExtensions { get; set; }
 
     public DbSet<JobFormDescriptionPart> JobFormDescriptionParts { get; set; }
     

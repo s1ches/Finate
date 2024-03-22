@@ -1,9 +1,8 @@
-using Finate.Domain.Entities;
 using Finate.Domain.Enums;
 
-namespace Finate.Domain.BaseEntities;
+namespace Finate.Domain.Entities;
 
-public class FormBase
+public class Form
 {
     public Guid Id { get; set; }
     
@@ -16,8 +15,8 @@ public class FormBase
     public string PlaceAddress { get; set; } = default!;
     
     public int Salary { get; set; }
-    
-    public Currency Currency { get; set; }
+
+    public string Currency { get; set; } = default!;
     
     public string? Description { get; set; }
     

@@ -70,7 +70,7 @@
     4. Архитектура приложения: Clean Architecture(Монолит)
   
 ## Схема БД:
-![FinateDB](https://github.com/s1ches/Finate/assets/121990701/ad9e7632-bc28-4b87-86ed-1bb1faa1f8f6)
+![FinateDB](https://github.com/s1ches/Finate/assets/121990701/2bc5a9a5-d92c-4fd1-b281-87ed1dc21b06)
 
 
 ## Роли

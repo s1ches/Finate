@@ -14,7 +14,7 @@
                     <h2 class="title">Register Page</h2>
                     <nav class="breadcrumb-area">
                         <ul class="breadcrumb justify-content-center">
-                            <li><a href="/Home/Index">Home</a></li>
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                             <li class="breadcrumb-sep">//</li>
                             <li>Pages</li>
                         </ul>
@@ -44,27 +44,30 @@
                 <div class="tab-content" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="candidate" role="tabpanel" aria-labelledby="candidate-tab">
                     <form asp-controller="Auth" asp-action="Register" method="post">
-                      <input type="hidden" asp-for="ReturnUrl"/>
                       <input type="hidden" asp-for="Role" value="@Roles.CandidateRoleName"/>
                       <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                               <input class="form-control" asp-for="UserName" type="text" placeholder="Full Name">
+                              <span asp-validation-for="UserName"></span>
                             </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="Email" type="email" placeholder="Email">
+                            <span asp-validation-for="Email"></span>
                           </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="Password" type="password" placeholder="Password">
+                            <span asp-validation-for="Password"></span>
                           </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="PasswordConfirm" type="password" placeholder="Confirm Password">
+                            <span asp-validation-for="PasswordConfirm"></span>
                           </div>
                         </div>
                         <div class="col-12">
@@ -77,28 +80,31 @@
                   </div>
                   <div class="tab-pane fade" id="employer" role="tabpanel" aria-labelledby="employer-tab">
                     <form asp-controller="Auth" asp-action="Register" method="post">
-                      <input type="hidden" asp-for="ReturnUrl"/>
                       <input type="hidden" asp-for="Role" value="@Roles.EmployerRoleName"/>
                       <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                               <input class="form-control" asp-for="UserName" type="text" placeholder="Company Name">
-                            </div>
+                                                      <span asp-validation-for="UserName"></span>
+                              </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="Email" type="email" placeholder="Email">
-                          </div>
+                                                    <span asp-validation-for="Email"></span>
+                            </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="Password" type="password" placeholder="Password">
-                          </div>
+                                                  <span asp-validation-for="Password"></span>
+                            </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
                             <input class="form-control" asp-for="PasswordConfirm" type="password" placeholder="Confirm Password">
-                          </div>
+                                                  <span asp-validation-for="PasswordConfirm"></span>
+                            </div>
                         </div>
                         <div class="col-12">
                           <div class="form-group">
@@ -110,7 +116,7 @@
                   </div>
                 </div>
                 <div class="login-register-form-info">
-                  <p>Already have an account? <a asp-controller="Auth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a></p>
+                  <p>Already have an account? <a asp-controller="Auth" asp-action="Login">Login</a></p>
                 </div>
               </div>
             </div>

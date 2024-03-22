@@ -32,9 +32,10 @@ public class PostResetPasswordCommandHandler(UserManager<User> userManager,
         }
         
         var token = await userManager.GeneratePasswordResetTokenAsync(user);
-
+        var confirmLink = BaseUrls.ConfirmPasswordResetLink(token, user.Email!);
+        
         await emailSender.SendEmailAsync(user.Email!,
-            AuthEmailMessages.ResetPasswordConfirmMessage(user.UserName!, token), cancellationToken);
+            AuthEmailMessages.ResetPasswordConfirmMessage(user.UserName!, confirmLink), cancellationToken);
 
         response.IsSuccessful = true;
         return response;

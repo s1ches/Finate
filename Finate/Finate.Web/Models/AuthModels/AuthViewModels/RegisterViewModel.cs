@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Finate.Web.Models.AuthModels.AuthViewModels;
 
+/// <summary>
+/// Модель для формы регистрации
+/// </summary>
 public class RegisterViewModel
 {
-    public string ReturnUrl { get; set; } = string.Empty;
-
     [Required]
     public string Role { get; set; } = string.Empty;
 

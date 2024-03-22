@@ -35,7 +35,7 @@ public class PostResetPasswordConfirmCommandHandler(UserManager<User> userManage
         
         if (!resetPasswordResult.Succeeded)
         {
-            response.ErrorMessages.AddRange(resetPasswordResult.Errors.Select(x => x.Description));
+            response.ErrorMessages.Add(AuthErrorMessages.WrongUserConfirmationToken);
             return response;
         }
 

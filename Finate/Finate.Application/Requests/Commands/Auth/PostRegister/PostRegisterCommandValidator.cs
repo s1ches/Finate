@@ -7,6 +7,9 @@ public class PostRegisterCommandValidator : IValidator<PostRegisterCommand>
 {
     public List<string> Validate(PostRegisterCommand request)
     {
+        if (request is null)
+            throw new NullReferenceException(nameof(request));
+            
         var result = new List<string>();
         
         if (string.IsNullOrWhiteSpace(request.UserName))
@@ -14,13 +17,22 @@ public class PostRegisterCommandValidator : IValidator<PostRegisterCommand>
         
         if (string.IsNullOrWhiteSpace(request.Email))
             result.Add(AuthErrorMessages.EmptyField(nameof(request.Email)));
-        
+
         if (string.IsNullOrWhiteSpace(request.Password))
+        {
             result.Add(AuthErrorMessages.EmptyField(nameof(request.Password)));
-        
+            return result;
+        }
+
+        if(request.Password.Length < 8)
+            result.Add(AuthErrorMessages.InvalidPasswordLength);
+
         if (string.IsNullOrWhiteSpace(request.PasswordConfirm))
+        {
             result.Add(AuthErrorMessages.EmptyField(nameof(request.PasswordConfirm)));
-        
+            return result;
+        }
+
         if(string.IsNullOrWhiteSpace(request.Role))
             result.Add(AuthErrorMessages.EmptyField(nameof(request.Role)));
         

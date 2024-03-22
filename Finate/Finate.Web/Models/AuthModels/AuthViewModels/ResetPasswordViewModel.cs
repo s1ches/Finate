@@ -2,21 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Finate.Web.Models.AuthModels.AuthViewModels;
 
+/// <summary>
+/// Модель для сброса пароля
+/// </summary>
 public class ResetPasswordViewModel
 {
-    public string ReturnUrl { get; set; } = string.Empty;
-
-    [Microsoft.Build.Framework.Required]
+    [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; } = default!;
-
-    [Microsoft.Build.Framework.Required]
-    [DataType(DataType.Password)]
-    [MinLength(8)]
-    public string NewPassword { get; set; } = default!;
-
-    [Microsoft.Build.Framework.Required]
-    [DataType(DataType.Password)]
-    [MinLength(8)]
-    public string NewPasswordConfirm { get; set; } = default!;
 }

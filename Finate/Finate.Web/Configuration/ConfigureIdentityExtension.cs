@@ -9,9 +9,15 @@ public static class ConfigureIdentityExtension
     private const string AllowAnyCharactersWithRus =
         " абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" +
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
+    
+    /// <summary>
+    /// Подключение Microsoft Identity
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IdentityBuilder AddIdentity(this IServiceCollection services)
-        => services.AddIdentity<User, Role>(opt =>
+    {
+        return services.AddIdentity<User, Role>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
                 opt.Password.RequiredLength = 8;
@@ -22,8 +28,9 @@ public static class ConfigureIdentityExtension
                 opt.User.AllowedUserNameCharacters = AllowAnyCharactersWithRus;
                 opt.User.RequireUniqueEmail = true;
             })
-        .AddEntityFrameworkStores<DbContext>()
-        .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<DbContext>()
+            .AddDefaultTokenProviders();
+    }
 
 
 }

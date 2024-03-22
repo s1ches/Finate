@@ -8,6 +8,7 @@ namespace Finate.Services.EmailSender;
 
 public class EmailSender(IConfiguration configuration) : IEmailSender
 {
+    /// <inheritdoc cref="IEmailSender"/>
     public async Task SendEmailAsync(string to, string message, CancellationToken cancellationToken)
     {
         var emailConfiguration = configuration.GetSection("EmailSettings");

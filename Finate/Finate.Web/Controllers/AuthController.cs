@@ -1,4 +1,5 @@
-using Finate.Application.Requests.Commands.Auth.PostConfirmEmail;
+using Finate.Application.Constants;
+using Finate.Application.Requests.Commands.Auth.GetConfirmEmail;
 using Finate.Application.Requests.Commands.Auth.PostLogin;
 using Finate.Application.Requests.Commands.Auth.PostRegister;
 using Finate.Application.Requests.Commands.Auth.PostResetPassword;
@@ -10,21 +11,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Finate.Web.Controllers;
 
-// TODO: Переписать методы confirm email и reset password на переход по ссылке из письма, и при confirm email - redirect на returnUrl, а при reset password пользователь попадает на страницу с полями newPassword и newPasswordConfirm, токен для смены пароля мы берём из url и меняем пароль, а не так, что юзер меняет пароль и вводит почту в одном месте
-
+/// <summary>
+/// Контроллер, отвечающий за авторизацию, регистрацию и функцию забыл пароль
+/// </summary>
+/// <param name="mediator"></param>
 [AllowAnonymous]
 [Route("[controller]/[action]")]
 public class AuthController(IMediator mediator)
     : Controller
 {
+    /// <summary>
+    /// Возвращает страницу логина
+    /// </summary>
+    /// <returns>Страницу логина</returns>
     [HttpGet]
-    public IActionResult Login(string returnUrl)
+    public IActionResult Login()
     {
-        var model = new LoginViewModel { ReturnUrl = returnUrl };
+        var model = new LoginViewModel();
 
         return View(model);
     }
-
+    
+    /// <summary>
+    /// Логинит пользователя
+    /// </summary>
+    /// <param name="model">Модель логина</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Если всё хорошо, редирект на главную страницу, иначе добавляет ошибки на форму</returns>
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model, CancellationToken cancellationToken)
     {
@@ -33,7 +46,7 @@ public class AuthController(IMediator mediator)
         var response = await mediator.Send(command, cancellationToken);
         
         if(response.IsSuccessful)
-            return Redirect(model.ReturnUrl);
+            return RedirectToAction("Index", "Home");
         
         foreach(var error in response.ErrorMessages)
             ModelState.AddModelError(string.Empty, error);
@@ -41,14 +54,25 @@ public class AuthController(IMediator mediator)
         return View(model);
     }
     
+    /// <summary>
+    /// Возвращает страницу регистрации
+    /// </summary>
+    /// <returns>Страница регистрации</returns>
     [HttpGet]
-    public IActionResult Register(string returnUrl)
+    public IActionResult Register()
     {
-        var model = new RegisterViewModel { ReturnUrl = returnUrl };
+        var model = new RegisterViewModel();
 
         return View(model);
     }
 
+    /// <summary>
+    /// Регистрация пользователя
+    /// </summary>
+    /// <param name="model">Модель регистрации</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Если всё хорошо, редирект на страницу ожидания подтверждения почты,
+    /// иначе добавляет ошибки на форму</returns>
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model, CancellationToken cancellationToken)
     {
@@ -57,88 +81,106 @@ public class AuthController(IMediator mediator)
                 Password = model.Password, PasswordConfirm = model.PasswordConfirm };
 
         var response = await mediator.Send(command, cancellationToken);
-        
+
         if (response.IsSuccessful)
-        {
-            var url = Url.Action(nameof(ConfirmEmail), "Auth",
-                new { returnUrl = model.ReturnUrl ?? "/", email = model.Email });
-            return Redirect(url!);
-        }
+            return RedirectToAction("ConfirmEmailAwait", "Auth");
 
         foreach(var error in response.ErrorMessages)
             ModelState.AddModelError(string.Empty, error);
 
         return View(model);
     }
-    
+
+    /// <summary>
+    /// Возвращает страницу ожидания подтверждения почты
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
-    public IActionResult ConfirmEmail([FromQuery] string returnUrl, [FromQuery] string email)
-    {
-        var model = new ConfirmEmailViewModel { Email = email, ReturnUrl = returnUrl };
-
-        return View(model);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> ConfirmEmail(ConfirmEmailViewModel model)
-    {
-        var command = new PostConfirmEmailCommand
-        {
-            Email = model.Email,
-            UserConfirmEmailToken = model.UserConfirmEmailToken
-        };
-
-        var result = await mediator.Send(command);
-
-        if (result.IsSuccessful)
-            return Redirect(model.ReturnUrl);
-        
-        foreach(var error in result.ErrorMessages)
-            ModelState.AddModelError(string.Empty, error);
-
-        return View(model);
-    }
-
-    [HttpGet]
-    public IActionResult ResetPassword(string returnUrl)
-    {
-        var model = new ResetPasswordViewModel { ReturnUrl = returnUrl };
-        
-        return View(model);
-    }
+    public IActionResult ConfirmEmailAwait() => View();
     
-    [HttpPost]
-    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model,
+    /// <summary>
+    /// Подтверждение почты
+    /// </summary>
+    /// <param name="confirmToken">Токен для подтвержения почты</param>
+    /// <param name="email">Почта</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Если всё хорошо, редирект на главную страницу, редирект на страницу
+    /// BadRequest(если неверный confirmToken)</returns>
+    [HttpGet]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string confirmToken, [FromQuery] string email,
         CancellationToken cancellationToken)
     {
-        var command = new PostResetPasswordCommand
-        {
-            Email = model.Email,
-            NewPassword = model.NewPassword,
-            NewPasswordConfirm = model.NewPasswordConfirm
-        };
-        
-        var result = await mediator.Send(command, cancellationToken);
+        var token = Uri.UnescapeDataString(confirmToken).Replace(" ", "+");   
 
-        if (result.IsSuccessful)
-            return RedirectToAction(nameof(ResetPasswordConfirm), nameof(AuthController), 
-                $"?returnUrl={model.ReturnUrl}&email={model.Email}&newPassword={model.NewPassword}");
+        var command = new GetConfirmEmailCommand
+        {
+            Email = email,
+            UserConfirmEmailToken = token
+        };
+
+        var response = await mediator.Send(command, cancellationToken);
+
+        if (response.IsSuccessful)
+            return RedirectToAction("Index", "Home");
+
+        return RedirectToAction("BadRequest", "Error");
+    }
+
+    /// <summary>
+    /// Возвращает страницу сброса пароля
+    /// </summary>
+    /// <returns>Страница сброса пароля</returns>
+    [HttpGet]
+    public IActionResult ResetPassword()
+    {
+        var model = new ResetPasswordViewModel();
+        return View(model);
+    }
+    
+    /// <summary>
+    /// Сброс пароля
+    /// </summary>
+    /// <param name="model">Модель сброса пароля(Email)</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Если всё хорошо, редирект на страницу ожидания подтверждения по почте, иначе
+    /// добавляет ошибки на форму</returns>
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model, CancellationToken cancellationToken)
+    {
+        var command = new PostResetPasswordCommand { Email = model.Email };
+
+        var response = await mediator.Send(command, cancellationToken);
         
-        foreach(var error in result.ErrorMessages)
+        if (response.IsSuccessful)
+            return RedirectToAction("ResetPasswordConfirmAwait");
+        
+        foreach(var error in response.ErrorMessages)
             ModelState.AddModelError(string.Empty, error);
 
         return View(model);
     }
 
+    /// <summary>
+    /// Возвращает страницу ожидания подтверждения сброса пароля по почте
+    /// </summary>
+    /// <returns>Страницу ожидания подтверждения сброса пароля по почте</returns>
     [HttpGet]
-    public IActionResult ResetPasswordConfirm([FromQuery] string returnUrl,
-        [FromQuery]string email, [FromQuery]string newPassword)
+    public IActionResult ResetPasswordConfirmAwait() => View();
+
+    /// <summary>
+    /// Подтверждение сброса пароля
+    /// </summary>
+    /// <param name="confirmToken">Токен для подтверждения сброса пароля</param>
+    /// <param name="email">Почта</param>
+    /// <returns>Если всё хорошо, редирект на главную страницу, иначе либо добавление ошибок на форму,
+    /// иначе редирект на BadRequest(если неверный confirmToken)</returns>
+    [HttpGet]
+    public IActionResult ResetPasswordConfirm(string confirmToken, string email)
     {
         var model = new ResetPasswordConfirmViewModel
         {
-            Email = email,
-            ReturnUrl = returnUrl,
-            NewPassword = newPassword
+            UserResetPasswordToken = confirmToken,
+            Email = email
         };
 
         return View(model);
@@ -148,22 +190,29 @@ public class AuthController(IMediator mediator)
     public async Task<IActionResult> ResetPasswordConfirm(ResetPasswordConfirmViewModel model,
         CancellationToken cancellationToken)
     {
+        var token = Uri.UnescapeDataString(model.UserResetPasswordToken).Replace(" ", "+");   
         var command = new PostResetPasswordConfirmCommand
         {
-            Email = model.Email,
-            NewPassword = model.NewPassword,
-            UserResetPasswordToken = model.UserResetPasswordToken
+            Email = model.Email, NewPassword = model.NewPassword, NewPasswordConfirm = model.NewPasswordConfirm,
+            UserResetPasswordToken = token
         };
         
-        var result = await mediator.Send(command, cancellationToken);
+        var response = await mediator.Send(command, cancellationToken);
 
-        if (result.IsSuccessful)
-            return Redirect(model.ReturnUrl);
-        
-        foreach(var error in result.ErrorMessages)
+        if (response.IsSuccessful)
+            return RedirectToAction("Index", "Home");
+
+        foreach (var error in response.ErrorMessages)
+        {
+            if (error.Equals(AuthErrorMessages.WrongUserConfirmationToken))
+                RedirectToAction("BadRequest", "Error");
+            
             ModelState.AddModelError(string.Empty, error);
+        }
 
         return View(model);
-    }    
+    }
+    
+    
     
 }

@@ -7,6 +7,9 @@ public class PostLoginCommandValidator : IValidator<PostLoginCommand>
 {
     public List<string> Validate(PostLoginCommand request)
     {
+        if (request is null)
+            throw new NullReferenceException(nameof(request));
+        
         var result = new List<string>();
         
         if(string.IsNullOrWhiteSpace(request.Email))

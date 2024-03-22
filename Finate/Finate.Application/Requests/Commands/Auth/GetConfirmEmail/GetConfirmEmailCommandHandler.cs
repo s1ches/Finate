@@ -4,17 +4,17 @@ using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Finate.Application.Requests.Commands.Auth.PostConfirmEmail;
+namespace Finate.Application.Requests.Commands.Auth.GetConfirmEmail;
 
-public class PostConfirmEmailCommandHandler(UserManager<User> userManager,
+public class GetConfirmEmailCommandHandler(UserManager<User> userManager,
     SignInManager<User> signInManager,
-    IValidator<PostConfirmEmailCommand> validator)
-    : IRequestHandler<PostConfirmEmailCommand, PostConfirmEmailResponse>
+    IValidator<GetConfirmEmailCommand> validator)
+    : IRequestHandler<GetConfirmEmailCommand, GetConfirmEmailResponse>
 {
-    public async Task<PostConfirmEmailResponse> Handle(PostConfirmEmailCommand request,
+    public async Task<GetConfirmEmailResponse> Handle(GetConfirmEmailCommand request,
         CancellationToken cancellationToken)
     {
-        var response = new PostConfirmEmailResponse { IsSuccessful = false };
+        var response = new GetConfirmEmailResponse { IsSuccessful = false };
         
         var errors = validator.Validate(request);
 

@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Finate.Web.Models.AuthModels.AuthViewModels;
 
+/// <summary>
+/// Модель для формы Sign In
+/// </summary>
 public class LoginViewModel
 {
-    public string ReturnUrl { get; set; } = string.Empty;
-
     [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; } = string.Empty;

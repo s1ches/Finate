@@ -9,4 +9,6 @@ public class PostResetPasswordConfirmCommand : IRequest<PostResetPasswordConfirm
     public string UserResetPasswordToken { get; set; } = default!;
 
     public string NewPassword { get; set; } = default!;
+
+    public string NewPasswordConfirm { get; set; } = default!;
 }

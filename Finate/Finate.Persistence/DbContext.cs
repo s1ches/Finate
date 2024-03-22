@@ -8,6 +8,8 @@ namespace Finate.Persistence;
 
 public class DbContext : IdentityDbContext<User, Role, Guid>, IDbContext
 {
+    public DbSet<Form> Forms { get; set; } = default!;
+    
     public DbSet<Skill> Skills { get; set; } = default!;
 
     public DbSet<SocialNetwork> SocialNetworks { get; set; } = default!;
@@ -16,11 +18,11 @@ public class DbContext : IdentityDbContext<User, Role, Guid>, IDbContext
 
     public DbSet<UserLanguage> UserLanguages { get; set; } = default!;
 
-    public DbSet<CandidateForm> CandidateForms { get; set; } = default!;
+    public DbSet<CandidateFormExtension> CandidateFormExtensions { get; set; } = default!;
 
     public DbSet<Experience> Experiences { get; set; } = default!;
 
-    public DbSet<JobForm> JobForms { get; set; } = default!;
+    public DbSet<JobFormExtension> JobFormExtensions { get; set; } = default!;
 
     public DbSet<JobFormDescriptionPart> JobFormDescriptionParts { get; set; } = default!;
 
@@ -34,9 +36,10 @@ public class DbContext : IdentityDbContext<User, Role, Guid>, IDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new CandidateFormConfiguration());
+        builder.ApplyConfiguration(new FormConfiguration());
+        builder.ApplyConfiguration(new CandidateFormExtensionConfiguration());
         builder.ApplyConfiguration(new ExperienceConfiguration());
-        builder.ApplyConfiguration(new JobFormConfiguration());
+        builder.ApplyConfiguration(new JobFormExtensionConfiguration());
         builder.ApplyConfiguration(new JobFormDescriptionPartConfiguration());
         builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new SkillConfiguration());

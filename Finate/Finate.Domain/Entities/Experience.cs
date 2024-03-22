@@ -8,7 +8,7 @@ public class Experience
     
     public Guid CandidateFormId { get; set; }
 
-    public CandidateForm CandidateForm { get; set; } = default!;
+    public CandidateFormExtension CandidateFormExtension { get; set; } = default!;
 
     public string ProfessionName { get; set; } = default!;
     

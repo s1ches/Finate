@@ -7,6 +7,9 @@ namespace Finate.Web.Models.AuthModels.AuthViewModels;
 /// </summary>
 public class ResetPasswordViewModel
 {
+    /// <summary>
+    /// Почта 
+    /// </summary>
     [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; } = default!;

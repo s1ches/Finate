@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Finate.Application.Requests.Commands.Auth.PostConfirmEmail;
+namespace Finate.Application.Requests.Commands.Auth.GetConfirmEmail;
 
 public class GetConfirmEmailCommand : IRequest<GetConfirmEmailResponse>
 {

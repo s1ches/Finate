@@ -1,12 +1,8 @@
 using MediatR;
+using Shared.Requests.Auth.PostLogin;
 
 namespace Finate.Application.Requests.Commands.Auth.PostLogin;
 
-public class PostLoginCommand : IRequest<PostLoginResponse>
-{
-    public string Email { get; set; } = default!;
-    
-    public string Password { get; set; } = default!;
-
-    public bool RememberMe { get; set; } = default!;
-}
+public class PostLoginCommand(PostLoginRequest request)
+    : PostLoginRequest(request),
+        IRequest<PostLoginResponse>;

@@ -1,34 +1,27 @@
 using Finate.Application.Constants;
-using Finate.Application.Interfaces;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Shared.Requests;
+using Shared.Requests.Auth.GetConfirmEmail;
 
 namespace Finate.Application.Requests.Commands.Auth.GetConfirmEmail;
 
 public class GetConfirmEmailCommandHandler(UserManager<User> userManager,
-    SignInManager<User> signInManager,
-    IValidator<GetConfirmEmailCommand> validator)
+    SignInManager<User> signInManager)
     : IRequestHandler<GetConfirmEmailCommand, GetConfirmEmailResponse>
 {
     public async Task<GetConfirmEmailResponse> Handle(GetConfirmEmailCommand request,
         CancellationToken cancellationToken)
     {
         var response = new GetConfirmEmailResponse { IsSuccessful = false };
-        
-        var errors = validator.Validate(request);
-
-        if (errors.Count != 0)
-        {
-            response.ErrorMessages = errors;
-            return response;
-        }
 
         var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.UserWithThisEmailNotFound);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Email),
+                AuthErrorMessages.UserWithThisEmailNotFound));
             return response;
         }
 
@@ -36,7 +29,8 @@ public class GetConfirmEmailCommandHandler(UserManager<User> userManager,
 
         if (!confirmEmailResult.Succeeded)
         {
-            response.ErrorMessages.AddRange(confirmEmailResult.Errors.Select(x => x.Description));
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.UserConfirmEmailToken),
+                AuthErrorMessages.WrongUserConfirmationToken));
             return response;
         }
         

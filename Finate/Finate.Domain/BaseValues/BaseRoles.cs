@@ -1,5 +1,4 @@
 using Finate.Domain.Entities;
-using Finate.Domain.Enums;
 
 namespace Finate.Domain.BaseValues;
 

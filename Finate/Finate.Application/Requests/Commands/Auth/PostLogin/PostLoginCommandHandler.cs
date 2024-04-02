@@ -1,32 +1,25 @@
 using Finate.Application.Constants;
-using Finate.Application.Interfaces;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Shared.Requests;
+using Shared.Requests.Auth.PostLogin;
 
 namespace Finate.Application.Requests.Commands.Auth.PostLogin;
 
-public class PostLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager, 
-    IValidator<PostLoginCommand> validator)
+public class PostLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager)
     : IRequestHandler<PostLoginCommand, PostLoginResponse>
 {
     public async Task<PostLoginResponse> Handle(PostLoginCommand request, CancellationToken cancellationToken)
     {
         var response = new PostLoginResponse {IsSuccessful = false};
         
-        var errors = validator.Validate(request);
-
-        if (errors.Count != 0)
-        {
-            response.ErrorMessages = errors;
-            return response;
-        }
-        
         var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.UserWithThisEmailNotFound);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Email),
+                AuthErrorMessages.UserWithThisEmailNotFound));
             return response;
         }
 
@@ -35,7 +28,8 @@ public class PostLoginCommandHandler(UserManager<User> userManager, SignInManage
 
         if (!signInResult.Succeeded)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.WrongPassword);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Password),
+                AuthErrorMessages.WrongPassword));
             return response;
         }
 

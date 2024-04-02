@@ -1,32 +1,25 @@
 using Finate.Application.Constants;
-using Finate.Application.Interfaces;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Shared.Requests;
+using Shared.Requests.Auth.PostResetPasswordConfirm;
 
 namespace Finate.Application.Requests.Commands.Auth.PostResetPasswordConfirm;
 
-public class PostResetPasswordConfirmCommandHandler(UserManager<User> userManager, 
-    IValidator<PostResetPasswordConfirmCommand> validator) :
+public class PostResetPasswordConfirmCommandHandler(UserManager<User> userManager) :
     IRequestHandler<PostResetPasswordConfirmCommand, PostResetPasswordConfirmResponse>
 {
     public async Task<PostResetPasswordConfirmResponse> Handle(PostResetPasswordConfirmCommand request, CancellationToken cancellationToken)
     {
         var response = new PostResetPasswordConfirmResponse { IsSuccessful = false };
         
-        var errors = validator.Validate(request);
-
-        if (errors.Count != 0)
-        {
-            response.ErrorMessages = errors;
-            return response;
-        }
-        
         var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.UserWithThisEmailNotFound);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem( nameof(request.Email),
+                AuthErrorMessages.UserWithThisEmailNotFound));
             return response;
         }
         
@@ -35,7 +28,8 @@ public class PostResetPasswordConfirmCommandHandler(UserManager<User> userManage
         
         if (!resetPasswordResult.Succeeded)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.WrongUserConfirmationToken);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.UserResetPasswordToken),
+                AuthErrorMessages.WrongUserConfirmationToken));
             return response;
         }
 

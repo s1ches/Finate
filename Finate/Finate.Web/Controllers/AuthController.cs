@@ -4,10 +4,14 @@ using Finate.Application.Requests.Commands.Auth.PostLogin;
 using Finate.Application.Requests.Commands.Auth.PostRegister;
 using Finate.Application.Requests.Commands.Auth.PostResetPassword;
 using Finate.Application.Requests.Commands.Auth.PostResetPasswordConfirm;
-using Finate.Web.Models.AuthModels.AuthViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Requests.Auth.GetConfirmEmail;
+using Shared.Requests.Auth.PostLogin;
+using Shared.Requests.Auth.PostRegister;
+using Shared.Requests.Auth.PostResetPassword;
+using Shared.Requests.Auth.PostResetPasswordConfirm;
 
 namespace Finate.Web.Controllers;
 
@@ -27,7 +31,7 @@ public class AuthController(IMediator mediator)
     [HttpGet]
     public IActionResult Login()
     {
-        var model = new LoginViewModel();
+        var model = new PostLoginRequest();
 
         return View(model);
     }
@@ -35,13 +39,16 @@ public class AuthController(IMediator mediator)
     /// <summary>
     /// Логинит пользователя
     /// </summary>
-    /// <param name="model">Модель логина</param>
+    /// <param name="request">Модель логина</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Если всё хорошо, редирект на главную страницу, иначе добавляет ошибки на форму</returns>
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login(PostLoginRequest request, CancellationToken cancellationToken)
     {
-        var command = new PostLoginCommand { Email = model.Email, Password = model.Password };
+        if (!ModelState.IsValid)
+            return View(request);
+        
+        var command = new PostLoginCommand(request);
 
         var response = await mediator.Send(command, cancellationToken);
         
@@ -49,9 +56,9 @@ public class AuthController(IMediator mediator)
             return RedirectToAction("Index", "Home");
         
         foreach(var error in response.ErrorMessages)
-            ModelState.AddModelError(string.Empty, error);
-        
-        return View(model);
+            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                
+        return View(request);
     }
     
     /// <summary>
@@ -61,7 +68,7 @@ public class AuthController(IMediator mediator)
     [HttpGet]
     public IActionResult Register()
     {
-        var model = new RegisterViewModel();
+        var model = new PostRegisterRequest();
 
         return View(model);
     }
@@ -69,16 +76,17 @@ public class AuthController(IMediator mediator)
     /// <summary>
     /// Регистрация пользователя
     /// </summary>
-    /// <param name="model">Модель регистрации</param>
+    /// <param name="request">Модель регистрации</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Если всё хорошо, редирект на страницу ожидания подтверждения почты,
     /// иначе добавляет ошибки на форму</returns>
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register(PostRegisterRequest request, CancellationToken cancellationToken)
     {
-        var command = new PostRegisterCommand
-            { Email = model.Email, Role = model.Role, UserName = model.UserName,
-                Password = model.Password, PasswordConfirm = model.PasswordConfirm };
+        if (!ModelState.IsValid)
+            return View(request);
+        
+        var command = new PostRegisterCommand(request);
 
         var response = await mediator.Send(command, cancellationToken);
 
@@ -86,9 +94,9 @@ public class AuthController(IMediator mediator)
             return RedirectToAction("ConfirmEmailAwait", "Auth");
 
         foreach(var error in response.ErrorMessages)
-            ModelState.AddModelError(string.Empty, error);
+            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
 
-        return View(model);
+        return View(request);
     }
 
     /// <summary>
@@ -110,13 +118,10 @@ public class AuthController(IMediator mediator)
     public async Task<IActionResult> ConfirmEmail([FromQuery] string confirmToken, [FromQuery] string email,
         CancellationToken cancellationToken)
     {
-        var token = Uri.UnescapeDataString(confirmToken).Replace(" ", "+");   
+        var token = Uri.UnescapeDataString(confirmToken).Replace(" ", "+");
 
-        var command = new GetConfirmEmailCommand
-        {
-            Email = email,
-            UserConfirmEmailToken = token
-        };
+        var request = new GetConfirmEmailRequest(email, token);
+        var command = new GetConfirmEmailCommand(request);
 
         var response = await mediator.Send(command, cancellationToken);
 
@@ -133,21 +138,24 @@ public class AuthController(IMediator mediator)
     [HttpGet]
     public IActionResult ResetPassword()
     {
-        var model = new ResetPasswordViewModel();
+        var model = new PostResetPasswordRequest();
         return View(model);
     }
     
     /// <summary>
     /// Сброс пароля
     /// </summary>
-    /// <param name="model">Модель сброса пароля(Email)</param>
+    /// <param name="request">Модель сброса пароля(Email)</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Если всё хорошо, редирект на страницу ожидания подтверждения по почте, иначе
     /// добавляет ошибки на форму</returns>
     [HttpPost]
-    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> ResetPassword(PostResetPasswordRequest request, CancellationToken cancellationToken)
     {
-        var command = new PostResetPasswordCommand { Email = model.Email };
+        if (!ModelState.IsValid)
+            return View(request);
+        
+        var command = new PostResetPasswordCommand(request);
 
         var response = await mediator.Send(command, cancellationToken);
         
@@ -155,9 +163,9 @@ public class AuthController(IMediator mediator)
             return RedirectToAction("ResetPasswordConfirmAwait");
         
         foreach(var error in response.ErrorMessages)
-            ModelState.AddModelError(string.Empty, error);
+            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
 
-        return View(model);
+        return View(request);
     }
 
     /// <summary>
@@ -175,27 +183,31 @@ public class AuthController(IMediator mediator)
     /// <returns>Если всё хорошо, редирект на главную страницу, иначе либо добавление ошибок на форму,
     /// иначе редирект на BadRequest(если неверный confirmToken)</returns>
     [HttpGet]
-    public IActionResult ResetPasswordConfirm(string confirmToken, string email)
+    public IActionResult ResetPasswordConfirm([FromQuery] string confirmToken, [FromQuery] string email)
     {
-        var model = new ResetPasswordConfirmViewModel
-        {
-            UserResetPasswordToken = confirmToken,
-            Email = email
-        };
+        var request = new PostResetPasswordConfirmRequest(email, confirmToken);
 
-        return View(model);
+        return View(request);
     }
     
+    /// <summary>
+    /// Подтверждение сброса пароля
+    /// </summary>
+    /// <param name="request">Модель подтверждения сброса пароля</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns>Если всё хорошо, то редирект на главную страницу, иначе либо на BadRequest,
+    /// либо на InternalServerError</returns>
     [HttpPost]
-    public async Task<IActionResult> ResetPasswordConfirm(ResetPasswordConfirmViewModel model,
+    public async Task<IActionResult> ResetPasswordConfirm(PostResetPasswordConfirmRequest request,
         CancellationToken cancellationToken)
     {
-        var token = Uri.UnescapeDataString(model.UserResetPasswordToken).Replace(" ", "+");   
-        var command = new PostResetPasswordConfirmCommand
-        {
-            Email = model.Email, NewPassword = model.NewPassword, NewPasswordConfirm = model.NewPasswordConfirm,
-            UserResetPasswordToken = token
-        };
+        if (!ModelState.IsValid)
+            return View(request);
+        
+        request.UserResetPasswordToken =
+            Uri.UnescapeDataString(request.UserResetPasswordToken).Replace(" ", "+");
+
+        var command = new PostResetPasswordConfirmCommand(request);
         
         var response = await mediator.Send(command, cancellationToken);
 
@@ -204,15 +216,12 @@ public class AuthController(IMediator mediator)
 
         foreach (var error in response.ErrorMessages)
         {
-            if (error.Equals(AuthErrorMessages.WrongUserConfirmationToken))
+            if (error.ErrorMessage.Equals(AuthErrorMessages.WrongUserConfirmationToken))
                 RedirectToAction("BadRequest", "Error");
             
-            ModelState.AddModelError(string.Empty, error);
+            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
         }
 
-        return View(model);
+        return View(request);
     }
-    
-    
-    
 }

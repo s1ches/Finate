@@ -1,5 +1,3 @@
-using Finate.Domain.Enums;
-
 namespace Finate.Domain.Entities;
 
 public class UserLanguage

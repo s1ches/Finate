@@ -3,42 +3,30 @@ using Finate.Application.Interfaces;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Shared.Requests;
+using Shared.Requests.Auth.PostRegister;
 
 namespace Finate.Application.Requests.Commands.Auth.PostRegister;
 
-public class PostRegisterCommandHandler(UserManager<User> userManager, IEmailSender emailSender,
-    IValidator<PostRegisterCommand> validator)
+public class PostRegisterCommandHandler(UserManager<User> userManager, IEmailSender emailSender)
     : IRequestHandler<PostRegisterCommand, PostRegisterResponse>
 {
     public async Task<PostRegisterResponse> Handle(PostRegisterCommand request, CancellationToken cancellationToken)
     {
         var response = new PostRegisterResponse { IsSuccessful = false };
-
-        var errors = validator.Validate(request);
-
-        if (errors.Count != 0)
-        {
-            response.ErrorMessages = errors;
-            return response;
-        }
         
         var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user is not null)
         {
-            response.ErrorMessages.Add(AuthErrorMessages.UserWithSameEmailAlreadyExist);
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Email),
+                AuthErrorMessages.UserWithSameEmailAlreadyExist));
             return response;
         }
 
         user = new User { Email = request.Email, UserName = request.UserName };
 
-        var registerResult = await userManager.CreateAsync(user, request.Password);
-
-        if (!registerResult.Succeeded)
-        {
-            response.ErrorMessages.AddRange(registerResult.Errors.Select(x => x.Description));
-            return response;
-        }
+        await userManager.CreateAsync(user, request.Password);
 
         await userManager.AddToRoleAsync(user, request.Role.ToUpper());
         

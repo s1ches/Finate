@@ -1,3 +1,5 @@
+using Shared.Requests;
+
 namespace Finate.Application.Interfaces;
 
 /// <summary>
@@ -11,5 +13,5 @@ public interface IValidator<in TRequest>
     /// </summary>
     /// <param name="request">Команда для валидации</param>
     /// <returns>Список ошибок</returns>
-    public List<string> Validate(TRequest request);
+    public List<ResponseErrorMessageItem> Validate(TRequest request);
 }

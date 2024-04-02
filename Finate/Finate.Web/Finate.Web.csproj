@@ -82,6 +82,7 @@
       <ProjectReference Include="..\Finate.Application\Finate.Application.csproj" />
       <ProjectReference Include="..\Finate.Persistence\Finate.Persistence.csproj" />
       <ProjectReference Include="..\Finate.Services\Finate.Services.csproj" />
+      <ProjectReference Include="..\Finate.Shared\Finate.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -92,10 +93,6 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models\AuthModels\" />
     </ItemGroup>
 
 </Project>

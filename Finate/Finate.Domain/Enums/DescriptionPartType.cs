@@ -2,6 +2,9 @@ using System.ComponentModel;
 
 namespace Finate.Domain.Enums;
 
+/// <summary>
+/// Тип описания формы
+/// </summary>
 public enum DescriptionPartType
 {
     [Description("Responsibilities")]

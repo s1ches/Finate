@@ -11,7 +11,7 @@ public class JobFormExtensionConfiguration : IEntityTypeConfiguration<JobFormExt
         builder.HasKey(x => x.Id);
 
         builder.HasMany(x => x.DescriptionParts)
-            .WithOne(y => y.JobFormExtension)
+            .WithOne(y => y.JobForm)
             .HasForeignKey(z => z.JobFormId)
             .OnDelete(DeleteBehavior.Cascade);
     }

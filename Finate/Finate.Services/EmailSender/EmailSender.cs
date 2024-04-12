@@ -6,6 +6,7 @@ using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace Finate.Services.EmailSender;
 
+/// <inheritdoc cref="IEmailSender"/>
 public class EmailSender(IConfiguration configuration) : IEmailSender
 {
     /// <inheritdoc cref="IEmailSender"/>

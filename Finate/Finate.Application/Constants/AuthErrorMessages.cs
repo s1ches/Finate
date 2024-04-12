@@ -1,5 +1,8 @@
 namespace Finate.Application.Constants;
 
+/// <summary>
+/// Сообщения для ошибок связанных с Auth
+/// </summary>
 public static class AuthErrorMessages
 {
     public const string UserWithThisEmailNotFound = "Wrong email";

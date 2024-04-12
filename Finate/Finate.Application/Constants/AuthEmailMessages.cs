@@ -1,7 +1,16 @@
 namespace Finate.Application.Constants;
 
+/// <summary>
+/// HTML код для Email писем для AuthController
+/// </summary>
 public static class AuthEmailMessages
 {
+    /// <summary>
+    /// Сообщение для подтверждения почты
+    /// </summary>
+    /// <param name="userName">Имя пользователя</param>
+    /// <param name="confirmLink">Ссылка для подтверждения</param>
+    /// <returns>HTML код письма</returns>
     public static string ConfirmEmailMessage(string userName, string confirmLink) 
         =>  $@"
     <!DOCTYPE html>
@@ -72,6 +81,12 @@ public static class AuthEmailMessages
     </body>
     </html>";
     
+    /// <summary>
+    /// Cообщение для подтверждения сброса пароля
+    /// </summary>
+    /// <param name="userName">Имя пользователя</param>
+    /// <param name="confirmLink">Ссылка для подтверждения</param>
+    /// <returns>HTML код письма</returns>
     public static string ResetPasswordConfirmMessage(string userName, string confirmLink) 
         => $@"
     <!DOCTYPE html>

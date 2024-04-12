@@ -2,6 +2,9 @@ using System.ComponentModel;
 
 namespace Finate.Domain.Enums;
 
+/// <summary>
+/// Тип работы по времени
+/// </summary>
 public enum JobType
 {
     [Description("Full Time")]

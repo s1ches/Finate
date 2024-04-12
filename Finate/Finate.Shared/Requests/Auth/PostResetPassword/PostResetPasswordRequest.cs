@@ -2,8 +2,15 @@
 
 namespace Shared.Requests.Auth.PostResetPassword;
 
+/// <summary>
+/// Запрос на сброс пароля
+/// </summary>
 public class PostResetPasswordRequest
 {
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="request">PostResetPasswordRequest</param>
     public PostResetPasswordRequest(PostResetPasswordRequest? request)
     {
         if (request is null) return;
@@ -11,10 +18,16 @@ public class PostResetPasswordRequest
         Email = request.Email;
     }
     
+    /// <summary>
+    /// Пустой конструктор
+    /// </summary>
     public PostResetPasswordRequest()
     {
     }
     
+    /// <summary>
+    /// Почта
+    /// </summary>
     [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; } = default!;

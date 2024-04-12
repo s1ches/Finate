@@ -2,6 +2,9 @@ using System.ComponentModel;
 
 namespace Finate.Domain.Enums;
 
+/// <summary>
+/// Уровень
+/// </summary>
 public enum Level
 {
     [Description("Intern")]

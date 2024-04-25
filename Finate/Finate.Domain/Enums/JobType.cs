@@ -17,5 +17,8 @@ public enum JobType
     HalfHalfTime = 3,
     
     [Description("Negotiable work time")]
-    Negotiable = 4
+    Negotiable = 4,
+    
+    [Description("Remote work")]
+    Remote = 5
 }

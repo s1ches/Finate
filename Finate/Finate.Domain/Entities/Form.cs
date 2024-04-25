@@ -33,14 +33,9 @@ public class Form
     public string PlaceAddress { get; set; } = default!;
     
     /// <summary>
-    /// Зарплата
+    /// Зарплата в USD
     /// </summary>
     public int Salary { get; set; }
-
-    /// <summary>
-    /// Валюта
-    /// </summary>
-    public string Currency { get; set; } = default!;
     
     /// <summary>
     /// Описание

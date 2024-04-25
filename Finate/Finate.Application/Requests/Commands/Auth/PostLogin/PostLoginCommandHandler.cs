@@ -24,8 +24,8 @@ public class PostLoginCommandHandler(UserManager<User> userManager, SignInManage
         }
 
         var signInResult = await signInManager.PasswordSignInAsync(user, request.Password,
-            request.RememberMe, false);
-
+            request.RememberMe, false); 
+        
         if (!signInResult.Succeeded)
         {
             response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Password),

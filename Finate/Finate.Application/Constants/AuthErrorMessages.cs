@@ -5,7 +5,7 @@ namespace Finate.Application.Constants;
 /// </summary>
 public static class AuthErrorMessages
 {
-    public const string UserWithThisEmailNotFound = "Wrong email";
+    public const string UserWithThisEmailNotFound = "User with this Email not found";
 
     public const string InvalidPasswordLength = "Password need to be more then 8 symbols";
 

@@ -43,17 +43,24 @@
                   <div class="header-navigation-area position-relative">
                     <ul class="main-menu nav">
                       <li><a href="/Home/Index"><span>Home</span></a></li>
-                      <li class="has-submenu"><a href="#/"><span>Find Jobs</span></a>
+                      <li class="has-submenu"><a href="/Jobs/FindJobs"><span>Find Jobs</span></a>
                       </li>
-                      <li class="has-submenu"><a href="#/"><span>Candidates</span></a>
+                      <li class="has-submenu"><a href="/Candidates/FindCandidates"><span>Candidates</span></a>
                       </li>
-                      <li><a href="contact.html"><span>Contact</span></a></li>
+                      <li><a href="/Contact/OurContacts"><span>Contact</span></a></li>
                     </ul>
                   </div>
                 </div>
                 <div class="header-align-end">
                   <div class="header-action-area">
-                    <a class="btn-registration" href="/Auth/Register">Profile</a>
+                    @if (User.Identity is { IsAuthenticated: false })
+                    {
+                      <a class="btn-registration" href="/Auth/Register">+ Register</a>
+                    }
+                    else
+                    {
+                      <a class="btn-registration" href="/Account/MyProfile">Profile</a>
+                    }
                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                       <i class="icofont-navigation-menu"></i>
                     </button>
@@ -139,11 +146,11 @@
             <div class="mobile-menu-items">
               <ul class="nav-menu">
                 <li><a href="/Home/Index">Home</a></li>
-                <li><a href="#">Find Jobs</a>
+                <li><a href="/Jobs/FindJobs">Find Jobs</a>
                 </li>
-                <li><a href="#">Candidates</a>
+                <li><a href="/Candidates/FindCandidates">Candidates</a>
                 </li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="Contact/OurContacts">Contact</a></li>
               </ul>
             </div>
             <!-- Mobile Menu End -->

@@ -43,9 +43,6 @@ builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 
-// Использование ErrorMiddleware
-app.UseMiddleware<ErrorMiddleware>();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -67,5 +64,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/");
 
 app.MapControllers();
+
+// Использование ErrorMiddleware
+app.UseMiddleware<ErrorMiddleware>();
 
 app.Run();

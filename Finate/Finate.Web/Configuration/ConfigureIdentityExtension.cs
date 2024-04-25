@@ -26,7 +26,6 @@ public static class ConfigureIdentityExtension
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireUppercase = false;
                 opt.User.AllowedUserNameCharacters = AllowAnyCharactersWithRus;
-                opt.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<DbContext>()
             .AddDefaultTokenProviders();

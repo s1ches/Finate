@@ -3,7 +3,7 @@ using Finate.Domain.Enums;
 namespace Finate.Domain.Entities;
 
 /// <summary>
-///  Расширение для сущности <see cref="Form"/> для кандидата
+///  Расширение для сущности <see cref="Form"/> для работодателя
 /// </summary>
 public class JobFormExtension
 {
@@ -16,6 +16,11 @@ public class JobFormExtension
     /// Id формы
     /// </summary>
     public Guid FormId { get; set; }
+    
+    /// <summary>
+    /// Название вакансии
+    /// </summary>
+    public string JobFormName { get; set; }
 
     /// <summary>
     /// Форма

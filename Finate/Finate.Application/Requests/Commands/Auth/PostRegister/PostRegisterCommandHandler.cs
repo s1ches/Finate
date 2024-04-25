@@ -23,6 +23,15 @@ public class PostRegisterCommandHandler(UserManager<User> userManager, IEmailSen
                 AuthErrorMessages.UserWithSameEmailAlreadyExist));
             return response;
         }
+        
+        if (request.Password != request.PasswordConfirm)
+        {
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.Password),
+                AuthErrorMessages.PasswordIsNotConfirmed));
+            response.ErrorMessages.Add(new ResponseErrorMessageItem(nameof(request.PasswordConfirm),
+                AuthErrorMessages.PasswordIsNotConfirmed));
+            return response;
+        }
 
         user = new User { Email = request.Email, UserName = request.UserName };
 

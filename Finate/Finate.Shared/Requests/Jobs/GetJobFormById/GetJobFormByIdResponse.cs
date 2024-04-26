@@ -16,7 +16,7 @@ public class GetJobFormByIdResponse
 
     public DateTime CreatedDate { get; set; } = default!;
 
-    public DateTime ApplicationEnd { get; set; } = default!;
+    public DateTime? ApplicationEnd { get; set; } = default!;
 
     public int ExperienceInYears { get; set; } = default!;
 
@@ -49,6 +49,8 @@ public class GetJobFormByIdResponse
     public string Statement { get; set; } = default!;
 
     public List<string> Tags { get; set; } = [];
+    
+    public int Views { get; set; }
 
     public Dictionary<string, string> SocialNetworksAndLinks { get; set; } = new();
 }

@@ -8,6 +8,8 @@ namespace Finate.Application.Interfaces;
 /// </summary>
 public interface IDbContext
 {
+    public DbSet<User> Users { get; set; }
+    
     public DbSet<Form> Forms { get; set; }
     
     public DbSet<Skill> Skills { get; set; }

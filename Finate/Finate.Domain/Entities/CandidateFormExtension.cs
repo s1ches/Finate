@@ -28,5 +28,5 @@ public class CandidateFormExtension
     /// <summary>
     /// Опыт кандидата
     /// </summary>
-    public List<Experience>? Experiences { get; set; } = [];
+    public List<Experience> Experiences { get; set; } = [];
 }

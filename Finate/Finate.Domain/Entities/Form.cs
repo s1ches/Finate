@@ -75,7 +75,7 @@ public class Form
     /// <summary>
     /// Языки
     /// </summary>
-    public List<UserLanguage>? Languages { get; set; } = [];
+    public List<UserLanguage> Languages { get; set; } = [];
 
     /// <summary>
     /// Тэги
@@ -85,10 +85,15 @@ public class Form
     /// <summary>
     /// Навыки
     /// </summary>
-    public List<Skill>? Skills { get; set; } = [];
+    public List<Skill> Skills { get; set; } = [];
     
     /// <summary>
     /// Активна ли форма
     /// </summary>
     public bool IsActive { get; set; }
+    
+    /// <summary>
+    /// Опыт
+    /// </summary>
+    public int ExperienceInYears { get; set; }
 }

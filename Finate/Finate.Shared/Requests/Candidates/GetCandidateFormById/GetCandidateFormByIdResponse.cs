@@ -35,4 +35,6 @@ public class GetCandidateFormByIdResponse
     public Dictionary<string, string> SocialNetworksAndLinks { get; set; } = new();
     
     public List<string> Tags { get; set; } = [];
+    
+    public int ExperienceInYears { get; set; }
 }

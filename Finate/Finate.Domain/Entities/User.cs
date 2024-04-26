@@ -20,5 +20,5 @@ public class User : IdentityUser<Guid>
     /// <summary>
     /// Список социальных сетей
     /// </summary>
-    public List<SocialNetwork>? SocialNetworks { get; set; } = [];
+    public List<SocialNetwork> SocialNetworks { get; set; } = [];
 }

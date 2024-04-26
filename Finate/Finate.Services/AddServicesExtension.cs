@@ -11,5 +11,7 @@ public static class AddServicesExtension
     /// <param name="services">IServiceCollection</param>
     /// <returns>IServiceCollection</returns>
     public static IServiceCollection AddServices(this IServiceCollection services)
-        => services.AddScoped<IEmailSender, EmailSender.EmailSender>();
+        => services
+            .AddScoped<IEmailSender, EmailSender.EmailSender>()
+            .AddScoped<ICurrentUser, CurrentUser.CurrentUser>();
 }

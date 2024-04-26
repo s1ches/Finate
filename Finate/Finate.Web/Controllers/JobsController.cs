@@ -1,4 +1,5 @@
-﻿using Finate.Application.Requests.Queries.Jobs.GetJobsFormsByFilter;
+﻿using Finate.Application.Features.Queries.Jobs.GetJobFormById;
+using Finate.Application.Features.Queries.Jobs.GetJobsFormsByFilter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,8 @@ public class JobsController(IMediator mediator) : Controller
         [FromQuery] Guid jobFormId,
         CancellationToken cancellationToken)
     {
-        return View();
+        var query = new GetJobFormByIdQuery(jobFormId);
+        var response = await mediator.Send(query, cancellationToken);
+        return View(response);
     }
 }

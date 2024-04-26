@@ -1,6 +1,44 @@
-﻿@model dynamic
+﻿@model Shared.Requests.Account.GetMyProfile.GetMyProfileResponse
 
 @{
     ViewBag.Title = "Finate - Your Profile";
     Layout = "_Layout";
 }
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Avatar -->
+            <div class="mb-3">
+                <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_655dd52aeece0b744ad0048e_655dfa6fc9ae6510cfd3bc63/scale_1200" alt="Avatar" class="img-fluid rounded-circle" style="width: 150px;">
+            </div>
+            <!-- Имя -->
+            <h2>Ваше имя</h2>
+        </div>
+        <div class="col-md-8">
+            <!-- Резюме -->
+            <div class="card">
+                <div class="card-header">
+                    Ваше резюме
+                </div>
+                <div class="card-body">
+                    <!-- Кнопки управления -->
+                    <div class="mb-3">
+                        <button class="btn btn-primary mr-2">Изменить</button>
+                        <button class="btn btn-danger mr-2">Удалить</button>
+                        <button class="btn btn-secondary">Сделать неактивным</button>
+                    </div>
+                    <!-- Название профессии -->
+                    <h4>Профессия: Ваша профессия</h4>
+                    <!-- Рейтинг -->
+                    <div class="mb-3">
+                        <strong>Рейтинг:</strong>
+                        <span>4.5</span> <!-- Ваш рейтинг -->
+                    </div>
+                    <!-- Кнопка "Посмотреть содержание резюме" -->
+                    <button class="btn btn-info">Посмотреть содержание резюме</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

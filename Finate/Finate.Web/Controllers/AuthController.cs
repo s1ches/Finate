@@ -1,9 +1,9 @@
 using Finate.Application.Constants;
-using Finate.Application.Requests.Commands.Auth.GetConfirmEmail;
-using Finate.Application.Requests.Commands.Auth.PostLogin;
-using Finate.Application.Requests.Commands.Auth.PostRegister;
-using Finate.Application.Requests.Commands.Auth.PostResetPassword;
-using Finate.Application.Requests.Commands.Auth.PostResetPasswordConfirm;
+using Finate.Application.Features.Commands.Auth.GetConfirmEmail;
+using Finate.Application.Features.Commands.Auth.PostLogin;
+using Finate.Application.Features.Commands.Auth.PostRegister;
+using Finate.Application.Features.Commands.Auth.PostResetPassword;
+using Finate.Application.Features.Commands.Auth.PostResetPasswordConfirm;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

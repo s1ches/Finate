@@ -1,4 +1,5 @@
-﻿using Finate.Application.Requests.Queries.Candidates.GetCandidatesFormsByFilter;
+﻿using Finate.Application.Features.Queries.Candidates.GetCandidateFormById;
+using Finate.Application.Features.Queries.Candidates.GetCandidatesFormsByFilter;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,10 @@ public class CandidatesController(IMediator mediator) : Controller
 
     [HttpGet]
     [Authorize]
-    public IActionResult CandidateForm([FromQuery] Guid candidateFormId, CancellationToken cancellationToken)
+    public async Task<IActionResult> CandidateForm([FromQuery] Guid candidateFormId, CancellationToken cancellationToken)
     {
-        return View();
+        var query = new GetCandidateFormByIdQuery(candidateFormId);
+        var response = await mediator.Send(query, cancellationToken);
+        return View(response);
     }
 }

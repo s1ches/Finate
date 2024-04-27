@@ -4,6 +4,8 @@ using Finate.Services;
 using Finate.Web.Configuration;
 using Finate.Web.Middlewares;
 using Microsoft.AspNetCore.Identity;
+using Minio;
+using Minio.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +43,14 @@ builder.Services.AddServices();
 //Добавление Persistence слоя
 builder.Services.AddPersistence(builder.Configuration);
 
+// Добавление клиента для S3 хранилища
+builder.Services.AddMinio(options =>
+{
+    options.Endpoint = builder.Configuration["S3:Endpoint"]!;
+    options.AccessKey = builder.Configuration["S3:AccessKey"]!;
+    options.SecretKey = builder.Configuration["S3:SecretKey"]!;
+});
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

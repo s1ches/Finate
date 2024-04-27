@@ -3,7 +3,6 @@ using Shared.Requests;
 
 namespace Finate.Application.Features.Commands.Account.PatchEditMyProfile;
 
-// TODO: Implement
 public class PatchEditMyProfileCommandHandler 
     : IRequestHandler<PatchEditMyProfileCommand, ResponseBase>
 {

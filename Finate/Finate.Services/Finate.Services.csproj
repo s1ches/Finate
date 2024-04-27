@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="MailKit" Version="4.4.0" />
+      <PackageReference Include="Minio" Version="6.0.2" />
     </ItemGroup>
 
 </Project>

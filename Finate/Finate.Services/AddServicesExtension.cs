@@ -14,5 +14,5 @@ public static class AddServicesExtension
         => services
             .AddScoped<IEmailSender, EmailSender.EmailSender>()
             .AddScoped<ICurrentUser, CurrentUser.CurrentUser>()
-            .AddScoped<IS3Servicce, S3Service.S3Service>();
+            .AddSingleton<IS3Service, S3Service.S3Service>();
 }

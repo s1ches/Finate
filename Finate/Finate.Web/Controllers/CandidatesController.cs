@@ -21,7 +21,7 @@ public class CandidatesController(IMediator mediator) : Controller
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> CandidateForm([FromQuery] Guid candidateFormId, CancellationToken cancellationToken)
+    public async Task<IActionResult> CandidateForm([FromRoute] Guid candidateFormId, CancellationToken cancellationToken)
     {
         var query = new GetCandidateFormByIdQuery(candidateFormId);
         var response = await mediator.Send(query, cancellationToken);

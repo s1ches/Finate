@@ -4,7 +4,6 @@ using Finate.Services;
 using Finate.Web.Configuration;
 using Finate.Web.Middlewares;
 using Microsoft.AspNetCore.Identity;
-using Minio;
 using Minio.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,7 +49,7 @@ builder.Services.AddMinio(options =>
     options.AccessKey = builder.Configuration["S3:AccessKey"]!;
     options.SecretKey = builder.Configuration["S3:SecretKey"]!;
 });
-    
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

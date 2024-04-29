@@ -7,15 +7,15 @@ using Minio.Exceptions;
 
 namespace Finate.Services.S3Service;
 
-public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger<S3Service> logger) : IS3Servicce
+public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger<S3Service> logger) : IS3Service
 {
     private readonly string _bucketName = configuration["S3:BucketName"]!;
     
-    public async Task<string?> GetFileUrl(string filename, CancellationToken cancellationToken = default)
+    public async Task<string?> GetFileUrlAsync(string filename, CancellationToken cancellationToken = default)
     {
         try
         {
-            var presignedGetObjectArgs = new PresignedGetObjectArgs().WithBucket(_bucketName).WithObject(filename);
+            var presignedGetObjectArgs = new PresignedGetObjectArgs().WithBucket(_bucketName).WithObject(filename).WithExpiry(604000);
             var objectStat = await minio.PresignedGetObjectAsync(presignedGetObjectArgs).ConfigureAwait(false);
             return objectStat;
         }
@@ -27,7 +27,7 @@ public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger
         return null;
     }
 
-    public async Task<int> UploadFile(string filename, Stream fileStream, CancellationToken cancellationToken = default)
+    public async Task<int> UploadFileAsync(string filename, Stream fileStream, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -47,7 +47,9 @@ public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger
             var putObjectArgs = new PutObjectArgs()
                 .WithBucket(_bucketName)
                 .WithObject(filename)
-                .WithStreamData(fileStream); 
+                .WithStreamData(fileStream)
+                .WithObjectSize(fileStream.Length); 
+            
             var putObjectResult =  await minio.PutObjectAsync(putObjectArgs, cancellationToken).ConfigureAwait(false);
             
             logger.Log(LogLevel.Information, $"Successfully uploaded {filename}" );
@@ -60,19 +62,19 @@ public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger
         }   
     }
 
-    public async Task<int> UpdateFile(string fileName, Stream fileStream, CancellationToken cancellationToken = default)
+    public async Task<int> UpdateFileAsync(string fileName, Stream fileStream, CancellationToken cancellationToken = default)
     {
-        var deleteFileResult = await DeleteFile(fileName, cancellationToken);
+        var deleteFileResult = await DeleteFileAsync(fileName, cancellationToken);
 
         if (deleteFileResult == 0)
             return 0;
 
-        var uploadFileResult = await UploadFile(fileName, fileStream, cancellationToken);
+        var uploadFileResult = await UploadFileAsync(fileName, fileStream, cancellationToken);
 
         return uploadFileResult == 0 ? 0 : 1;
     }
 
-    public async Task<int> DeleteFile(string fileName, CancellationToken cancellationToken = default)
+    public async Task<int> DeleteFileAsync(string fileName, CancellationToken cancellationToken = default)
     {
         var removeObjectArgs = new RemoveObjectArgs().WithObject(fileName).WithBucket(_bucketName);
 

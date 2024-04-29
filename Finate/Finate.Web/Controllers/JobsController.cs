@@ -22,7 +22,7 @@ public class JobsController(IMediator mediator) : Controller
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> JobForm(
-        [FromQuery] Guid jobFormId,
+        [FromRoute] Guid jobFormId,
         CancellationToken cancellationToken)
     {
         var query = new GetJobFormByIdQuery(jobFormId);

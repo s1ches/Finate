@@ -19,23 +19,16 @@ public class AccountController(IMediator mediator) : Controller
     }
 
     [HttpGet]
-    // TODO: Create view
-    public async Task<IActionResult> EditMyProfile(CancellationToken cancellationToken) => View();
+    public async Task<IActionResult> EditMyProfile(CancellationToken cancellationToken) => View(new PatchEditMyProfileRequest());
     
-    [HttpPatch]
+    [HttpPost]
     public async Task<IActionResult> EditMyProfile(
-        [FromBody] PatchEditMyProfileRequest request,
+        [FromForm] PatchEditMyProfileRequest request,
         CancellationToken cancellationToken)
     {
         var command = new PatchEditMyProfileCommand(request);
-        var response = await mediator.Send(command, cancellationToken);
+        await mediator.Send(command, cancellationToken);
         
-        if(response.IsSuccessful)
-            return RedirectToAction("MyProfile", "Account");
-        
-        foreach(var error in response.ErrorMessages)
-            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-
-        return View(response);
+        return RedirectToAction("MyProfile", "Account");
     }
 }

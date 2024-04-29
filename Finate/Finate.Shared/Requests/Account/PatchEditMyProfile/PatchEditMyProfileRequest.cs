@@ -1,4 +1,6 @@
-﻿namespace Shared.Requests.Account.PatchEditMyProfile;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Shared.Requests.Account.PatchEditMyProfile;
 
 public class PatchEditMyProfileRequest
 {
@@ -12,7 +14,7 @@ public class PatchEditMyProfileRequest
     {
     }
     
-    public Stream PhotoFileStream { get; set; }
+    public IFormFile? PhotoFileStream { get; set; }
     
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 }

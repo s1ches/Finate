@@ -3,6 +3,7 @@ using Finate.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Shared.Common;
 using Shared.Requests.Candidates.GetCandidateFormById;
 
 namespace Finate.Application.Features.Queries.Candidates.GetCandidateFormById;
@@ -50,13 +51,17 @@ public class GetCandidateFormByIdQueryHandler(IDbContext dbContext)
             SocialNetworksAndLinks = socialNetworks,
             CandidateEmail = form.CandidateForm.User.Email!,
             Views = form.CandidateForm.Views,
+            PlaceAddress = form.CandidateForm.PlaceAddress,
+            ProfessionName = form.CandidateForm.ProfessionName,
+            Languages = form.CandidateForm.Languages.Select(language => language.Language).ToList(),
             Experiences = form.Experiences.Select(x => new ExperienceDto
             {
                 Description = x.About!,
                 EndYear = x.EndDate?.Year ?? 0,
                 ExperienceType = x.ExperienceType.ToString(),
-                PlaceName = x.ProfessionName,
-                StartYear = x.StartDate.Year
+                PlaceName = x.PlaceName,
+                StartYear = x.StartDate.Year,
+                ProfessionName = x.ProfessionName
             }).ToList()
         };
     }

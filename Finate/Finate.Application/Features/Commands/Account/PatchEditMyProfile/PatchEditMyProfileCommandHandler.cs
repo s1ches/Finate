@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using Finate.Application.Interfaces;
-using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Finate.Application.Features.Commands.Account.PatchEditMyProfile;

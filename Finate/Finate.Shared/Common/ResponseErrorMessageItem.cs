@@ -1,4 +1,4 @@
-﻿namespace Shared.Requests;
+﻿namespace Shared.Common;
 
 /// <summary>
 /// Рекорд с полем реквеста и ошибкой

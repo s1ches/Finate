@@ -1,4 +1,5 @@
-﻿@model Shared.Requests.Candidates.GetCandidateFormById.GetCandidateFormByIdResponse
+﻿@using Finate.Domain.Enums
+@model Shared.Requests.Candidates.GetCandidateFormById.GetCandidateFormByIdResponse
 
 @{
     ViewBag.Title = "Finate - Candidate";
@@ -37,11 +38,11 @@
                   <img src="~/img/team/details1.jpg" width="130" height="130" alt="Image-HasTech">
                 </div>
                 <div class="content">
-                  <h4 class="title">Frida Marchand</h4>
-                  <h5 class="sub-title">Web Developer</h5>
+                  <h4 class="title">@Model.FullName</h4>
+                  <h5 class="sub-title">@Model.ProfessionName</h5>
                   <ul class="info-list">
-                    <li><i class="icofont-location-pin"></i> New York, USA</li>
-                    <li><i class="icofont-phone"></i> +88 456 796 457</li>
+                    <li><i class="icofont-location-pin"></i>@Model.PlaceAddress</li>
+                    <li><i class="icofont-phone"></i>@Model.PhoneNumber</li>
                   </ul>
                 </div>
               </div>
@@ -53,82 +54,56 @@
             <div class="team-details-item">
               <div class="content">
                 <h4 class="title">About Candidate</h4>
-                <p class="desc">It is a long established fact that a reader will be distracted the readable content of page when looking atits layout. The point of using is that has more-or-less normal a distribution of letters, as opposed to usin content publishing packages web page editors. It is a long established fact that a reader will be distracts by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that has look like readable publishing packages and web page editors.</p>
-                <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout. The point of using is that has more-or-less normal a distribution of letters, as opposed to usin content publishing packages web page editors.</p>
+                <p class="desc">@Model.AboutCandidate</p>
               </div>
               <div class="candidate-details-wrap">
                 <h4 class="content-title">Education</h4>
                 <div class="candidate-details-content">
-                  <div class="content-item">
-                    <h4 class="title">Graphic Design <span>//</span> <span>2015 - 2018</span></h4>
-                    <h5 class="sub-title">University of Michigan, Ann Arbor</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
-                  </div>
-                  <div class="content-item">
-                    <h4 class="title">Web Development <span>//</span> <span>2019 - 2020</span></h4>
-                    <h5 class="sub-title">Franklin and Marshall College</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
-                  </div>
-                  <div class="content-item">
-                    <h4 class="title">Diploma In Fine Arts <span>//</span> <span>2020 - 2021</span></h4>
-                    <h5 class="sub-title">Franklin and Marshall College</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
-                  </div>
+                  @foreach (var educationItem in Model.Experiences.Where(x => x.ExperienceType == ExperienceType.Education.ToString()))
+                  {
+                    <div class="content-item">
+                      <h4 class="title">@educationItem.ProfessionName <span>//</span> <span>@educationItem.StartYear - @educationItem.EndYear</span></h4>
+                      <h5 class="sub-title">@educationItem.PlaceName</h5>
+                      <p class="desc">@educationItem.Description</p>
+                    </div>
+                  }
                 </div>
               </div>
               <div class="candidate-details-wrap">
                 <h4 class="content-title">Work & Experience</h4>
                 <div class="candidate-details-content">
+                  @foreach (var educationItem in Model.Experiences
+                              .Where(x => x.ExperienceType == ExperienceType.Work.ToString()))
+                  {
                   <div class="content-item">
-                    <h4 class="title">Computer Operator <span>//</span> <span>2014 - 2016</span></h4>
-                    <h5 class="sub-title">Sanguine Skincare Ltd.</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
+                    <h4 class="title">@educationItem.ProfessionName <span>//</span> <span>@educationItem.StartYear - @educationItem.EndYear</span></h4>
+                    <h5 class="sub-title">@educationItem.PlaceName</h5>
+                    <p class="desc">@educationItem.Description</p>
                   </div>
-                  <div class="content-item">
-                    <h4 class="title">Uuser Interface Designer <span>//</span> <span>2017 - 2020</span></h4>
-                    <h5 class="sub-title">Lambent Illumination Ltd.</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
-                  </div>
-                  <div class="content-item">
-                    <h4 class="title">Senior UI Designer <span>//</span> <span>2020 - Present</span></h4>
-                    <h5 class="sub-title">Karibian IT Solution Ltd.</h5>
-                    <p class="desc">It is a long established fact that a reader will be distracted the readable content of a page when looking atits layout the point of using is that has moreo less normal a distribution letters content publishing packages web page editors.</p>
-                  </div>
+                  }
                 </div>
               </div>
               <div class="content-list-wrap">
                 <div class="content mb--0">
                   <h4 class="title">Professional Skills</h4>
                   <ul class="team-details-list mb--0">
-                    <li><i class="icofont-check"></i> Web application Design</li>
-                    <li><i class="icofont-check"></i> User Interface (UI) design</li>
-                    <li><i class="icofont-check"></i> Mobile Application Design</li>
-                    <li><i class="icofont-check"></i> Landing Page Design</li>
-                    <li><i class="icofont-check"></i> Web Interface Design</li>
-                    <li><i class="icofont-check"></i> Interaction Design</li>
-                    <li><i class="icofont-check"></i> User Experience</li>
-                    <li><i class="icofont-check"></i> Graphic Design</li>
-                    <li><i class="icofont-check"></i> Branding & Identity</li>
-                    <li><i class="icofont-check"></i> Project Planning</li>
-                    <li><i class="icofont-check"></i> Prototyping</li>
-                    <li><i class="icofont-check"></i> Problem Solving</li>
+                    @foreach (var professionalSkill in Model.SkillTypesAndSkills
+                                .Where(x => x.Key == SkillType.SoftSkill.ToString())
+                                .Select(x => x.Value))
+                    {
+                      <li><i class="icofont-check"></i>@professionalSkill</li>
+                    }
                   </ul>
                 </div>
                 <div class="content mb--0">
                   <h4 class="title">Software Skills</h4>
                   <ul class="team-details-list mb--0">
-                    <li><i class="icofont-check"></i> Adobe Photoshop</li>
-                    <li><i class="icofont-check"></i> Adobe Illustrator</li>
-                    <li><i class="icofont-check"></i> Adobe XD</li>
-                    <li><i class="icofont-check"></i> Figma</li>
-                    <li><i class="icofont-check"></i> Sketch</li>
-                    <li><i class="icofont-check"></i> InVision Studio</li>
-                    <li><i class="icofont-check"></i> UXPin</li>
-                    <li><i class="icofont-check"></i> MockFlow</li>
-                    <li><i class="icofont-check"></i> Balsamiq</li>
-                    <li><i class="icofont-check"></i> Microsoft Word</li>
-                    <li><i class="icofont-check"></i> Microsoft Excel</li>
-                    <li><i class="icofont-check"></i> Microsoft PowerPoint</li>
+                    @foreach (var professionalSkill in Model.SkillTypesAndSkills
+                    .Where(x => x.Key == SkillType.HardSkill.ToString())
+                    .Select(x => x.Value))
+                    {
+                      <li><i class="icofont-check"></i>@professionalSkill</li>
+                    }
                   </ul>
                 </div>
               </div>
@@ -146,42 +121,42 @@
                       <tr>
                         <td class="table-name">Category</td>
                         <td class="dotted">:</td>
-                        <td>Development</td>
+                        <td>@Model.Category</td>
                       </tr>
                       <tr>
                         <td class="table-name">Offered Salary</td>
                         <td class="dotted">:</td>
-                        <td>$5000 / Monthly</td>
+                        <td>$@Model.Salary / Monthly</td>
                       </tr>
                       <tr>
                         <td class="table-name">Experience</td>
                         <td class="dotted">:</td>
-                        <td>05 Years</td>
+                        <td>@Model.ExperienceInYears Years</td>
                       </tr>
                       <tr>
                         <td class="table-name">Language</td>
                         <td class="dotted">:</td>
-                        <td>English, Germany</td>
+                        <td>@{ string.Join(", ", Model.Languages); }</td>
                       </tr>
                       <tr>
                         <td class="table-name">Age</td>
                         <td class="dotted">:</td>
-                        <td>27-30 Years</td>
+                        <td>@Model.Age Years</td>
                       </tr>
                       <tr>
                         <td class="table-name">Gender</td>
                         <td class="dotted">:</td>
-                        <td>Female</td>
+                        <td>@Model.Gender</td>
                       </tr>
                       <tr>
                         <td class="table-name">Level</td>
                         <td class="dotted">:</td>
-                        <td>Senior</td>
+                        <td>@Model.Level</td>
                       </tr>
                       <tr>
                         <td class="table-name">Views</td>
                         <td class="dotted">:</td>
-                        <td>8,567</td>
+                        <td>@Model.Views</td>
                       </tr>
                     </tbody>
                   </table>
@@ -192,47 +167,47 @@
                   <h3 class="title">Share With</h3>
                 </div>
                 <div class="social-icons">
-                  <a href="https://www.facebook.com" target="_blank" rel="noopener"><i class="icofont-facebook"></i></a>
-                  <a href="https://twitter.com" target="_blank" rel="noopener"><i class="icofont-twitter"></i></a>
-                  <a href="https://www.skype.com" target="_blank" rel="noopener"><i class="icofont-skype"></i></a>
-                  <a href="https://www.pinterest.com" target="_blank" rel="noopener"><i class="icofont-pinterest"></i></a>
-                  <a href="https://dribbble.com/" target="_blank" rel="noopener"><i class="icofont-dribbble"></i></a>
-                </div>
+                  @foreach (var link in Model.SocialNetworksAndLinks)
+                  {
+                    <a href="@link.Value" target="_blank" rel="noopener"><i class="@link.Key"></i></a>
+                  }
+                  </div>
               </div>
-              <div class="widget-item widget-contact">
-                <div class="widget-title">
-                  <h3 class="title">Contact Now</h3>
-                </div>
-                <div class="widget-contact-form">
-                  <form id="contact-form" action="https://whizthemes.com/mail-php/raju/arden/mail.php" method="POST">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input class="form-control" type="text" name="con_name" placeholder="Name:">
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input class="form-control" type="email" name="con_email" placeholder="Email:">
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <textarea class="form-control" name="con_message" placeholder="Message"></textarea>
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group mb--0">
-                          <button class="btn-theme d-block w-100" type="submit">Send Message</button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-
-                  <!--== Message Notification ==-->
-                  <div class="form-message"></div>
-                </div>
-              </div>
+              @* <div class="widget-item widget-contact"> *@
+              @*   <div class="widget-title"> *@
+              @*     <h3 class="title">Contact Now</h3> *@
+              @*   </div> *@
+              @*   <div class="widget-contact-form"> *@
+              @*     <form id="contact-form" asp-controller="Contact" asp-action="SendEmail" method="POST"> *@
+              @*       <input type="hidden" asp-for=""/> *@
+              @*       <div class="row"> *@
+              @*         <div class="col-md-12"> *@
+              @*           <div class="form-group"> *@
+              @*             <input class="form-control" type="text" name="con_name" placeholder="Name:"> *@
+              @*           </div> *@
+              @*         </div> *@
+              @*         <div class="col-md-12"> *@
+              @*           <div class="form-group"> *@
+              @*             <input class="form-control" type="email" name="con_email" placeholder="Email:"> *@
+              @*           </div> *@
+              @*         </div> *@
+              @*         <div class="col-md-12"> *@
+              @*           <div class="form-group"> *@
+              @*             <textarea class="form-control" name="con_message" placeholder="Message"></textarea> *@
+              @*           </div> *@
+              @*         </div> *@
+              @*         <div class="col-md-12"> *@
+              @*           <div class="form-group mb--0"> *@
+              @*             <button class="btn-theme d-block w-100" type="submit">Send Message</button> *@
+              @*           </div> *@
+              @*         </div> *@
+              @*       </div> *@
+              @*     </form> *@
+              @* *@
+              @*     <!--== Message Notification ==--> *@
+              @*     <div class="form-message"></div> *@
+              @*   </div> *@
+              @* </div> *@
             </div>
           </div>
         </div>

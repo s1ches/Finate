@@ -1,7 +1,15 @@
-﻿namespace Shared.Requests.Candidates.GetCandidateFormById;
+﻿using Shared.Common;
+
+namespace Shared.Requests.Candidates.GetCandidateFormById;
 
 public class GetCandidateFormByIdResponse
 {
+    public List<string> Languages { get; set; } = [];
+    
+    public string ProfessionName { get; set; } = default!;
+    
+    public string PlaceAddress { get; set; } = default!;
+    
     public string CandidateImagePath { get; set; } = default!;
     
     public Guid CandidateFormId { get; set; } = default!;

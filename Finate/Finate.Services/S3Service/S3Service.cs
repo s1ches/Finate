@@ -31,7 +31,6 @@ public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger
     {
         try
         {
-            // Make a bucket on the server, if not already present.
             var beArgs = new BucketExistsArgs()
                 .WithBucket(_bucketName);
             
@@ -50,7 +49,7 @@ public class S3Service(IConfiguration configuration, IMinioClient minio, ILogger
                 .WithStreamData(fileStream)
                 .WithObjectSize(fileStream.Length); 
             
-            var putObjectResult =  await minio.PutObjectAsync(putObjectArgs, cancellationToken).ConfigureAwait(false);
+            await minio.PutObjectAsync(putObjectArgs, cancellationToken).ConfigureAwait(false);
             
             logger.Log(LogLevel.Information, $"Successfully uploaded {filename}" );
             return 1;

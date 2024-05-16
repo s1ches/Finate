@@ -1,4 +1,4 @@
-﻿namespace Shared.Requests;
+﻿namespace Shared.Common;
 
 /// <summary>
 /// Базовый ответ

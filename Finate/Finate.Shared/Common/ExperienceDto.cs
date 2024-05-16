@@ -1,4 +1,4 @@
-﻿namespace Shared.Requests.Candidates.GetCandidateFormById;
+﻿namespace Shared.Common;
 
 public class ExperienceDto
 {
@@ -11,4 +11,6 @@ public class ExperienceDto
     public string Description { get; set; } = default!;
 
     public string PlaceName { get; set; } = default!;
+
+    public string ProfessionName { get; set; } = default!;
 }

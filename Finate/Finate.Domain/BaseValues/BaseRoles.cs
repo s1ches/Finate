@@ -13,9 +13,11 @@ public static class BaseRoles
     public static readonly Role AdminRole = new()
     {
         Id = new Guid("4B960FC2-23BC-4003-A03D-552FBA0E579E"),
-        Name = "Admin",
-        NormalizedName = "ADMIN"
+        Name = AdminRoleName,
+        NormalizedName = AdminRoleName.ToUpper()
     };
+
+    public const string AdminRoleName = "Admin";
     
     /// <summary>
     /// Роль кандидата
@@ -23,9 +25,11 @@ public static class BaseRoles
     public static readonly Role CandidateRole = new()
     {
         Id = new Guid("33F3F505-60E8-4656-AA3D-5F427192C489"),
-        Name = "Candidate",
-        NormalizedName = "CANDIDATE"
+        Name = CandidateRoleName,
+        NormalizedName = CandidateRoleName.ToUpper()
     };
+
+    public const string CandidateRoleName = "Candidate";
 
     /// <summary>
     /// Роль работодателя
@@ -33,7 +37,9 @@ public static class BaseRoles
     public static readonly Role EmployerRole = new() 
     {
         Id = new Guid("6D8E2FFC-8500-407B-9FEE-0312CACBFB48"),
-        Name = "Employer",
-        NormalizedName = "EMPLOYER"
+        Name = EmployerRoleName,
+        NormalizedName = EmployerRoleName.ToUpper()
     };
+
+    public const string EmployerRoleName = "Employer";
 }

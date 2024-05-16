@@ -1,8 +1,12 @@
-﻿namespace Shared.Requests.Candidates.GetCandidatesFormsByFilter;
+﻿using Shared.Abstractions;
 
-public class GetCandidatesFormsByFilterResponse
+namespace Shared.Requests.Candidates.GetCandidatesFormsByFilter;
+
+public class GetCandidatesFormsByFilterResponse : PaginationDto
 {
     public List<GetCandidatesFormsByFilterResponseItem> CandidatesForms = [];
 
     public int TotalCount { get; set; } = 0;
+
+    public string SearchValue { get; set; } = default!;
 }

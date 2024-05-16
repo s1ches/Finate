@@ -18,14 +18,6 @@ public class GetJobsFormsByFilterQueryHandler(IDbContext dbContext)
         if (!string.IsNullOrWhiteSpace(request.SearchValue))
             query = query
                 .Where(form => form.JobForm.ProfessionName.ToLower().Contains(request.SearchValue.ToLower()));
-
-        if (!string.IsNullOrWhiteSpace(request.Category))
-            query = query
-                .Where(form => form.JobFormName.ToLower().Equals(request.Category.ToLower()));
-
-        if (!string.IsNullOrWhiteSpace(request.City))
-            query = query
-                .Where(form => form.JobForm.PlaceAddress.ToLower().Equals(request.City.ToLower()));
         
         var orderedQuery = query
             .OrderByDescending(form => form.JobForm.Views)
@@ -40,7 +32,7 @@ public class GetJobsFormsByFilterQueryHandler(IDbContext dbContext)
                 JobFormId = form.FormId,
                 CompanyName = form.JobForm.User.UserName!,
                 Address = form.JobForm.PlaceAddress,
-                JobName = form.JobFormName,
+                JobName = form.JobForm.ProfessionName,
                 JobType = form.JobType.ToString(),
                 TopSkills = form.JobForm.Skills!.Where(x => x.IsTopSkill).Select(x => x.SkillName).ToList(),
                 Salary = form.JobForm.Salary

@@ -16,11 +16,6 @@ public class JobFormExtension
     /// Id формы
     /// </summary>
     public Guid FormId { get; set; }
-    
-    /// <summary>
-    /// Название вакансии
-    /// </summary>
-    public string JobFormName { get; set; }
 
     /// <summary>
     /// Форма

@@ -1,4 +1,4 @@
-using Shared.Requests;
+using Shared.Common;
 
 namespace Finate.Application.Interfaces;
 

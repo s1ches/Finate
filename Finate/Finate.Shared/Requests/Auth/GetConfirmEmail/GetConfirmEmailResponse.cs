@@ -1,4 +1,6 @@
-﻿namespace Shared.Requests.Auth.GetConfirmEmail;
+﻿using Shared.Common;
+
+namespace Shared.Requests.Auth.GetConfirmEmail;
 
 /// <summary>
 /// Ответ на подтверждение почты

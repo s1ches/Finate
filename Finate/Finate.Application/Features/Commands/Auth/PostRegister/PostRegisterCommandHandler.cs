@@ -3,7 +3,7 @@ using Finate.Application.Interfaces;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Shared.Requests;
+using Shared.Common;
 using Shared.Requests.Auth.PostRegister;
 
 namespace Finate.Application.Features.Commands.Auth.PostRegister;

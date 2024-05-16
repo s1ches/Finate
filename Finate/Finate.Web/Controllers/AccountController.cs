@@ -19,7 +19,7 @@ public class AccountController(IMediator mediator) : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditMyProfile(CancellationToken cancellationToken) => View(new PatchEditMyProfileRequest());
+    public IActionResult EditMyProfile() => View(new PatchEditMyProfileRequest());
     
     [HttpPost]
     public async Task<IActionResult> EditMyProfile(

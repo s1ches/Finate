@@ -1,6 +1,6 @@
 ﻿namespace Shared.Abstractions;
 
-public abstract class PaginationRequest
+public abstract class PaginationDto
 {
     private int _pageSize = 9;
     

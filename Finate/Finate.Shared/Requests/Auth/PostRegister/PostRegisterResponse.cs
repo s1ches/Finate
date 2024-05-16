@@ -1,4 +1,6 @@
-﻿namespace Shared.Requests.Auth.PostRegister;
+﻿using Shared.Common;
+
+namespace Shared.Requests.Auth.PostRegister;
 
 /// <summary>
 /// Ответ на регистрацию

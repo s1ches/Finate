@@ -1,4 +1,5 @@
-﻿@model Shared.Requests.Candidates.GetCandidatesFormsByFilter.GetCandidatesFormsByFilterResponse
+﻿@using Shared.Requests.Candidates.GetCandidatesFormsByFilter
+@model Shared.Requests.Candidates.GetCandidatesFormsByFilter.GetCandidatesFormsByFilterResponse
 
 @{
     ViewBag.Title = "Finate - Find Your Candidate";
@@ -13,40 +14,20 @@
                     <div class="col-12">
                         <div class="job-search-wrap">
                             <div class="job-search-form">
-                                <form action="#">
+                                <form method="get" asp-controller="Candidates" asp-action="FindCandidates">
+                                    <input type="hidden" name="PageNumber" value="@Model.PageNumber">
+                                    <input type="hidden" name="PageSize" value="@Model.PageSize">
                                     <div class="row row-gutter-10">
                                         <div class="col-lg-auto col-sm-6 col-12 flex-grow-1">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Candidate name">
+                                                <input type="text" name="SearchValue" class="form-control" placeholder="Candidate name">
                                             </div>
                                         </div>
                                         <div class="col-lg-auto col-sm-6 col-12 flex-grow-1">
                                             <div class="form-group">
-                                                <select class="form-control">
-                                                    <option value="1" selected>Choose City</option>
-                                                    <option value="2">New York</option>
-                                                    <option value="3">California</option>
-                                                    <option value="4">Illinois</option>
-                                                    <option value="5">Texas</option>
-                                                    <option value="6">Florida</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-auto col-sm-6 col-12 flex-grow-1">
-                                            <div class="form-group">
-                                                <select class="form-control">
-                                                    <option value="1" selected>Category</option>
-                                                    <option value="2">Web Designer</option>
-                                                    <option value="3">Web Developer</option>
-                                                    <option value="4">Graphic Designer</option>
-                                                    <option value="5">App Developer</option>
-                                                    <option value="6">UI &amp; UX Expert</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-auto col-sm-6 col-12 flex-grow-1">
-                                            <div class="form-group">
-                                                <button type="button" class="btn-form-search"><i class="icofont-search-1"></i></button>
+                                                <button type="submit" class="btn-form-search">
+                                                    <i class="icofont-search-1"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -65,234 +46,54 @@
 <section class="team-area team-inner2-area">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/1.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Lauran Benitez</a></h4>
-                        <h5 class="sub-title">Web Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
+            @foreach (var item in Model.CandidatesForms)
+            {
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <!--== Start Team Item ==-->
+                    <div class="team-item">
+                        <div class="thumb">
+                            <a asp-action="CandidateForm" asp-route="@item.CandidateFormId">
+                                <img src="@item.CandidateImagePath" width="160" height="160" alt="Image-HasTech">
+                            </a>
                         </div>
-                        <p class="desc">CSS3, HTML5, Javascript Bootstrap, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/2.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Valentine Anders</a></h4>
-                        <h5 class="sub-title">UI/UX Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
+                        <div class="content">
+                            <h4 class="title">
+                                <a asp-action="CandidateForm" asp-route="@item.CandidateFormId">@item.FullName</a>
+                            </h4>
+                            <h5 class="sub-title">@item.Category</h5>
+                            <h5>@item.Rating</h5>
+                            <p class="desc">
+                                @{ string.Join(", ", item.TopSkills); }
+                            </p>
+                            <a class="btn-theme btn-white btn-sm" asp-action="CandidateForm" asp-route="@item.CandidateFormId">View Profile</a>
                         </div>
-                        <p class="desc">Bootstrap, CSS3, HTML5, Javascript, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/3.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Shakia Aguilera</a></h4>
-                        <h5 class="sub-title">Web Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
+                        <div class="bookmark-icon">
+                            <img src="~/img/icons/bookmark1.png" alt="Image-HasTech">
                         </div>
-                        <p class="desc">Javascript, Bootstrap, Jquery, CSS3, HTML5</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/4.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Assunta Manson</a></h4>
-                        <h5 class="sub-title">App. Developer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
+                        <div class="bookmark-icon-hover">
+                            <img src="~/img/icons/bookmark2.png" alt="Image-HasTech">
                         </div>
-                        <p class="desc">HTML5, CSS3, Jquery, Javascript, Bootstrap</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
                     </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
+                    <!--== End Team Item ==-->
                 </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~3/img/team/5.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">David Silva</a></h4>
-                        <h5 class="sub-title">Web Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                        </div>
-                        <p class="desc">CSS3, HTML5, Javascript Bootstrap, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/6.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Jason Holt</a></h4>
-                        <h5 class="sub-title">UI/UX Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                        </div>
-                        <p class="desc">CSS3, HTML5, Javascript Bootstrap, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/7.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Elnora Morton</a></h4>
-                        <h5 class="sub-title">App. Developer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                        </div>
-                        <p class="desc">CSS3, HTML5, Javascript Bootstrap, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                <!--== Start Team Item ==-->
-                <div class="team-item">
-                    <div class="thumb">
-                        <a href="candidate-details.html">
-                            <img src="~/img/team/8.jpg" width="160" height="160" alt="Image-HasTech">
-                        </a>
-                    </div>
-                    <div class="content">
-                        <h4 class="title"><a href="candidate-details.html">Leona Spencer</a></h4>
-                        <h5 class="sub-title">UI/UX Designer</h5>
-                        <div class="rating-box">
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                            <i class="icofont-star"></i>
-                        </div>
-                        <p class="desc">CSS3, HTML5, Javascript Bootstrap, Jquery</p>
-                        <a class="btn-theme btn-white btn-sm" href="candidate-details.html">View Profile</a>
-                    </div>
-                    <div class="bookmark-icon"><img src="~/img/icons/bookmark1.png" alt="Image-HasTech"></div>
-                    <div class="bookmark-icon-hover"><img src="~/img/icons/bookmark2.png" alt="Image-HasTech"></div>
-                </div>
-                <!--== End Team Item ==-->
-            </div>
+            }
         </div>
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="pagination-area">
                     <nav>
                         <ul class="page-numbers d-inline-flex">
-                            <li>
-                                <a class="page-number active" href="candidate.html">1</a>
-                            </li>
-                            <li>
-                                <a class="page-number" href="candidate.html">2</a>
-                            </li>
-                            <li>
-                                <a class="page-number" href="candidate.html">3</a>
-                            </li>
-                            <li>
-                                <a class="page-number next" href="candidate.html">
-                                    <i class="icofont-long-arrow-right"></i>
-                                </a>
-                            </li>
+                            @{
+                                var pagesCount = Model.TotalCount % Model.PageSize == 0
+                                        ? Model.TotalCount / Model.PageSize
+                                        : Model.TotalCount / Model.PageSize + 1;
+                            }
+                            @for (var i = 0; i < pagesCount; i++)
+                            {
+                                <li>
+                                    <a class="page-number active" asp-action="FindCandidates" asp-route-request="@{ new GetCandidatesFormsByFilterRequest { PageNumber = i+1, PageSize = Model.PageSize, SearchValue = Model.SearchValue }; }">@(i + 1)</a>
+                                </li>   
+                            }
                         </ul>
                     </nav>
                 </div>

@@ -1,4 +1,6 @@
-﻿namespace Shared.Requests.Auth.PostLogin;
+﻿using Shared.Common;
+
+namespace Shared.Requests.Auth.PostLogin;
 
 /// <summary>
 /// Ответ на логин

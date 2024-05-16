@@ -2,7 +2,7 @@
 
 namespace Shared.Requests.Jobs.GetJobsFormsByFilter;
 
-public class GetJobsFormsByFilterRequest : PaginationRequest
+public class GetJobsFormsByFilterRequest : PaginationDto
 {
     public GetJobsFormsByFilterRequest(GetJobsFormsByFilterRequest request)
     {
@@ -10,8 +10,6 @@ public class GetJobsFormsByFilterRequest : PaginationRequest
             throw new ArgumentNullException(nameof(request));
         
         SearchValue = request.SearchValue;
-        City = request.City;
-        Category = request.Category;
         PageNumber = request.PageNumber;
         PageSize = request.PageNumber;
     }
@@ -21,8 +19,4 @@ public class GetJobsFormsByFilterRequest : PaginationRequest
     }
     
     public string? SearchValue { get; set; } = string.Empty;
-
-    public string? City { get; set; } = string.Empty;
-
-    public string? Category { get; set; } = string.Empty;
 }

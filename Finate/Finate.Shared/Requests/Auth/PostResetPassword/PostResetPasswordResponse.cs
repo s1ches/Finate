@@ -1,4 +1,6 @@
-﻿namespace Shared.Requests.Auth.PostResetPassword;
+﻿using Shared.Common;
+
+namespace Shared.Requests.Auth.PostResetPassword;
 
 /// <summary>
 /// Ответ на сброс пароля

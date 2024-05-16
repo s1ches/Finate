@@ -2,7 +2,7 @@ using Finate.Application.Constants;
 using Finate.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Shared.Requests;
+using Shared.Common;
 using Shared.Requests.Auth.PostResetPasswordConfirm;
 
 namespace Finate.Application.Features.Commands.Auth.PostResetPasswordConfirm;
